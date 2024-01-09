@@ -25,7 +25,7 @@
               </div>
             </div>
             <div class="header-image">
-                <img src="images/teaser.png" alt="Teaser Image" class="teaser-image">
+                <img src="images/teaser_2.png" alt="Teaser Image" class="teaser-image">
             </div>
         </div>
     <d-article>
@@ -34,11 +34,11 @@
                 <div class="byline-column">
                     <h3>Authors</h3>
                     <p><a href="https://willisma.github.io/" class="author-link">Willis Ma</a></p>
-                    <p><a href="https://www.sainingxie.com/" class="author-link">Saining Xie</a></p>
                     <p><a href="https://marikgoldstein.github.io/" class="author-link">Mark Goldstein</a></p>
                     <p><a href="http://malbergo.me/" class="author-link">Michael S. Albergo</a></p>
                     <p><a href="https://nmboffi.github.io/" class="author-link">Nicholas M. Boffi</a></p>
                     <p><a href="https://wp.nyu.edu/courantinstituteofmathematicalsciences-eve2/" class="author-link">Eric Vanden-Eijnden</a></p>
+                    <p><a href="https://www.sainingxie.com/" class="author-link">Saining Xie</a></p>
                 </div>
                 <div class="byline-column">
                     <h3>Affiliations</h3>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="byline-column">
                     <h3>Date</h3>
-                    <p>Dec. 26, 2023</p>
+                    <p>Jan. 9, 2023</p>
                 </div>
             </div>
         </div>
@@ -491,7 +491,7 @@
                     <figcaption style="text-align: center;"><strong>Evaluation of SDE with different diffusion coefficients</strong>. To make the SBDM-VP competitive we instead use the weighted objective.</figcaption>
                 </d-figure>
                 <br>
-                We note that the optimal choice of diffusion coefficient depends on the interpolant and the objective, and in our experiments, also largely depends on model sizes. Empirically, we observe the best choice for our SiT-XL is a <span style="color: #FF7F00">velocity</span> model with <span style="color: #8F00FF">Linear</span> interpolant and sampled using <span style="color: #008080">SDE</span> with \(w(t) = \sigma_t\) coefficient. 
+                We note that the optimal choice of diffusion coefficient depends on the interpolant and the objective, and in our experiments, also largely depends on model sizes. Empirically, we observe the best choice for our SiT-XL is a <span style="color: #014421">continuous-time</span> <span style="color: #FF7F00">velocity</span> model with <span style="color: #8F00FF">Linear</span> interpolant and sampled using <span style="color: #008080">SDE</span> with \(w(t) = \sigma_t\) coefficient. 
             </p>
             <p>
                 Lastly, we note that the performance of ODE and SDE integrators may differ under different computation budget. As shown below, the ODE converges faster with fewer number of functions evaluations, while the SDE is capable of reaching a much lower final FID score when given a larger computational budget.
@@ -641,11 +641,11 @@
         <d-appendix>
             <h3>BibTeX</h3>
             <p class="bibtex">
-                @article{SEAL,<br>
+                @article{SiT,<br>
                 &nbsp;&nbsp;title={SiT: Exploring Flow and Diffusion-based Generative Models with Scalable Interpolant Transformers},<br>
-                &nbsp;&nbsp;author={Penghao Wu and Saining Xie},<br>
-                &nbsp;&nbsp;year={2023},<br>
-                &nbsp;&nbsp;journal={arXiv preprint arXiv:2312},<br>
+                &nbsp;&nbsp;author={Nanye Ma, Mark Goldstein, Michael Samuel Albergo, Nicholas Matthew Boffi, Eric Vanden-Eijnden, and Saining Xie},<br>
+                &nbsp;&nbsp;year={2024},<br>
+                &nbsp;&nbsp;journal={arXiv preprint arXiv:2401},<br>
                 }
             </p>
 

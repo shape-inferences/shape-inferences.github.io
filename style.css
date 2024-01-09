@@ -1,7 +1,7 @@
 /* Base styles */
 .header-container {
-  background-color: #2596be; /* Blue background */
-  color: #FEF5B8;
+  background-color: #445d74; /* Blue background */
+  color: #d9e8ed;
   text-align: center; /* Center content on small screens */
   padding: 20px; /* Reduced padding for small screens */
 }
@@ -32,9 +32,9 @@
 }
 
 .button-container a.button {
-  background-color: #F2D3B4; /* Yellow background */
-  color: #000; /* Black text */
-  border: 2px solid #ffc107; /* Orange border */
+  background-color: #b7c3cb;
+  color: #03325c;
+  border: 2px solid #ccdde5; /* Grey border */
   border-radius: 25px; /* Rounded borders */
   padding: 10px 20px; /* Top and bottom padding, left and right padding */
   margin: 5px; /* Space between the buttons */
