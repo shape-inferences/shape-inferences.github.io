@@ -8,12 +8,11 @@
         <script src="https://d3js.org/d3-collection.v1.min.js"></script>
         <script src="https://rawgit.com/nstrayer/slid3r/master/dist/slid3r.js"></script>
         <script src="cross_fade.js"></script>
-        <script src="LaTeXMathML.js"></script>
         <link rel="stylesheet" href="style.css">
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js" integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ" crossorigin="anonymous"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
             onload="renderMathInElement(document.body);"></script>
     </head>
     <body>
@@ -55,14 +54,13 @@
             <nav>
                 <h4>Contents</h4>
                 <div><a href="#introduction">Flow and Diffusion</a></div>
-                <div><a href="#framework">Scalable Interpolant</a></div>
-                <div><a href="#QuantRes">Quantitative Result</a></div>
-                <div><a href="#QualiRes">Qualitative Result</a></div>
+                <div><a href="#framework">Scalable Interpolant Transformers</a></div>
+                <div><a href="#conclusion">Conclusion</a></div>
             </nav>
         </d-contents>
         
         <p>
-            We present <b>S</b>calable <b>i</b>nterpolant <b>T</b>ransformers (SiT), a family of generative models built on the backbone of Diffusion Transformers (DiT). 
+            We present <b>S</b>calable <b>i</b>nterpolant <b>T</b>ransformers (SiT), a family of generative models built on the backbone of Diffusion Transformers (DiT)<d-cite key="peebles2023scalable"></d-cite>. 
             The interpolant framework, which allows for connecting two distributions in a more flexible way than standard diffusion models, 
             makes possible a modular study of various design choices impacting generative models built on dynamical transport: 
             using <b><span style="color: #014421">discrete</span></b> vs. <b><span style="color: #014421">continuous</span></b> time learning, 
@@ -72,17 +70,105 @@
         </p>
         <p>
             By carefully introducing the above ingredients, SiT surpasses DiT uniformly across model sizes on the conditional ImageNet 256x256 benchmark using the exact same backbone, number of parameters, and GFLOPs. By exploring various diffusion coefficients, which can be tuned separately from learning, SiT achieves an FID-50K score of <b>2.06</b>.
+            <d-figure>
+                <figure>
+                    <img src="images/visuals/sota_2.png" alt="SiT sota">
+                    <figcaption>Selected samples from our largest SiT-XL models trained on ImageNet<d-cite key="russakovsky2015imagenet"></d-cite> at \(512\times512\) and \(256\times256\) resolutions with classifier-free guidance scale of \(4.0\), respectively.</figcaption>
+                </figure>
+            </d-figure>
+            <!-- <d-figure>
+                <svg width="100%" height="100%" viewBox="0 0 320 245" style="min-width: 160px; margin-bottom: -70px"><g id="image_group_fig1" width="320" height="200"><image width="320" height="200" xlink:href="images/visuals/sota_2.png" id="display_image_fig1" x="0" y="0"></image></g></svg>
+                <figcaption>
+                    Selected samples from our largest SiT-XL models trained on ImageNet<d-cite key="russakovsky2015imagenet"></d-cite> at \(512\times512\) and \(256\times256\) resolutions with classifier-free guidance scale of \(4.0\), respectively.
+                </figcaption>
+            </d-figure> -->
         </p>
         <section id="introduction">
             <h2>Flow and Diffusion</h2>
             <p>
-                A salient aspect of human cognitive reasoning process involving visual information is the ability to conduct <i>visual search</i> - the process of efficiently recognizing and localizing key objects within intricate real-world scenes. This mechanism plays a fundamental role in the interaction with the environment and happens nearly everywhere, from finding keys on a cluttered table to searching for a friend in the crowd. Besides, it is also an indispensable step for complex tasks that require multiple reasoning steps. And the intricacy of visual search has been studied for a long time in cognitive science and vision science <d-cite key="torralba2006contextual"></d-cite><d-cite key="peelen2011neural"></d-cite><d-cite key="peelen2011neural"></d-cite><d-cite key="wolfe2017five"></d-cite><d-cite key="wolfe2020visual"></d-cite><d-cite key="wang2023statistical"></d-cite>.
+                In recent years a family of flexible generative model 
+                based on transforming pure noise \(\varepsilon \sim \mathcal{N}(0, \mathbf{I})\) into data \(x_* \sim p(x)\) has emerged.
+                This transformation can be described by a simple time-dependent process $$
+                    x_t = \alpha_t x_* + \sigma_t \varepsilon
+                $$
+                with t defined on \([0, T]\), \(\alpha_t, \sigma_t\) being time-dependent functions and chosen such that \(x_0 \sim p(x)\), \(x_T \sim \mathcal{N}(0, \mathbf{I})\). 
+                At each \(t\), \(x_t\) has a conditional density \(p_t(x | x_*, \varepsilon) = \mathcal{N}(\alpha_t x_*, \sigma_t^2\mathbf{I})\), 
+                and our goal is to estimate the marginal density \(p_t(x) = \int p_t(x | x_*, \varepsilon) p(x) p(\varepsilon)dx d\varepsilon\).
+                In most cases, the marginal density \(p_t(x)\) is in tractable. 
+                Some previous methods<d-cite key="chen2019neural"></d-cite><d-cite key="kingma2018glow"></d-cite><d-cite key="grathwohl2018ffjord"></d-cite><d-cite key="dinh2015nice"></d-cite> focus on maximizing the likelihood \(\log p(x)\), whereas modern approaches take advantage of differential equations with the corresponding marginal density \(p_t(x)\) to directly estmate data samples from \(p(x)\).
+            </p>
+            <p> 
+                <b>Diffusion-Based Models.</b>  
+                Diffusion-Based Models<d-cite key="ho2020denoising"></d-cite><d-cite key="kingma2023variational"></d-cite> <d-cite key="nichol2021improved"></d-cite><d-cite key="karras2022elucidating"></d-cite><d-cite key="song2021scorebased"></d-cite> is the most commonly used framework for this transformation.
+                The \(\alpha_t\) and  \(\sigma_t\) are set indrectly by a forward-time stochastic differential equation (SDE) with \(\mathcal{N}(0, \mathbf{I})\) as equilibrium distribution. $$
+                    dX_t = f(X_t, t) \mathrm{d}t + g(t) \mathrm{d} W_t 
+                $$
+                where \(W_t\) is a standard Brownian motion. <br>
+                In practice, the model samples the process by learning the gradient of the likelihood \(\nabla \log p_t(x)\) (score) with a generative model \(s_\theta(x_t, t)\) under the score matching objective $$
+                    \mathcal{L}_s(\theta) = \int \mathbb{E}[\Vert s_\theta(x_t, t) + \frac{\varepsilon}{\sigma_t}  \Vert^2] \mathrm{d}t
+                $$
+                Inference is done by solving either a probability flow ODE $$\mathrm{d}X_t =  [f(X_t, t) - \frac{1}{2} g^2(t) \nabla \log p_t(x)] \mathrm{d}t $$
+                or a reverse-time SDE $$
+                    \mathrm{d}X_t = [f(X_t, t) - g^2(t) \nabla \log p_t(x)] \mathrm{d}t + g(t) \mathrm{d} \bar{W}_t
+                $$
+                where \(\bar{W}_t\) is a standard Brownian motion with reversed time. Integrating both equations from \(t = T\) to \(t=0\) with initial condition of a Gaussian noise will push to a data sample approximating \(p(x)\). <br>
+            </p> 
+            <p>
+                <b>Stochastic Interpolant and Flow-Based Models.</b>
+                Stochastic Interpolant and other flow-based models<d-cite key="ipman2023flow"></d-cite><d-cite key="albergo2023building"></d-cite><d-cite key="albergo2023stochastic"></d-cite><d-cite key="liu2022flow"></d-cite> are the recent additions to this family, 
+                where the \(\alpha_t\) and  \(\sigma_t\) are restricted on time interval \([0,1]\) with \(\alpha_0 = \sigma_1 = 1\) and \(\alpha_1 = \sigma_0 = 0\), 
+                so that \(x_t\) exactly interpolate between \(x_*\) and \(\varepsilon\). We note that this gives more flexibility in the choice of the interpolating functions, as they are no longer subject to a forward SDE.<br>
+                Furthermore, these models use a simpler probability flow ODE for inference 
+                \[\begin{align*}
+                    \mathrm{d}X_t &= \underbrace{[f(X_t, t) - \frac{1}{2} g^2(t) \nabla \log p_t(x)]}_{\text{directly learn this}} \mathrm{d}t \\
+                    \implies \mathrm{d}X_t &= v(X_t, t) \mathrm{d}t
+                \end{align*}\]
+                where the <em>velocity</em> \(v(X_t, t)\) is estimated by the flow matching objective $$
+                    \mathcal{L}_v(\theta) = \int \mathbb{E}[\Vert v(X_t, t) - \dot \alpha_t x_* - \dot \sigma_t \varepsilon \Vert^2] \mathrm{d}t
+                $$
+                Intuitively, this can be viewed as predicting the velocity of a particle starting moving from some \(\varepsilon\) at time \(t\).
+            </p> 
+            <p>
+                We summarize the components of the above models in the following table:
+                <table class="display-table">
+                    <tr>
+                      <th></th>
+                      <th>Diffusion-Based</th>
+                      <th>Flow-Based</th>
+                    </tr>
+                    <tr>
+                      <td>\( t \)</td>
+                      <td>\(\{0, \cdots, T\}\) (DDPM<d-cite key="ho2020denoising"></d-cite>) / \([0,1]\) (SBDM<d-cite key="song2021scorebased"></d-cite>) </td>
+                      <td>\([0,1]\)</td>
+                    </tr>
+                    <tr>
+                        <td>\( \mathcal{L}(\theta) \)</td>
+                        <td>\( \mathcal{L}_s \sim \Vert s_\theta(x_t, t) + \frac{\varepsilon}{\sigma_t}\Vert^2 \)</td>
+                        <td>\( \mathcal{L}_v \sim \Vert v_\theta(x_t, t) - \dot \alpha_t x_* - \dot \sigma_t \varepsilon \Vert^2 \)</td>
+                    </tr>
+                    <tr>
+                      <td>\( x_t \)</td>
+                      <td>\( \alpha_t x + \sigma_t \varepsilon \)</td>
+                      <td>\( \alpha_t x + \sigma_t \varepsilon \)</td>
+                    </tr>
+                    <tr>
+                      <td>ODE</td>
+                      <td>\( \mathrm{d}X_t =  [f(X_t, t) - \frac{1}{2} g^2(t) \nabla \log p_t(x)] \mathrm{d}t \)</td>
+                      <td>\( dX_t = v(X_t, t) \)</td>
+                    </tr>
+                    <tr>
+                      <td>SDE</td>
+                      <td>\( dX_t =[f(X_t, t) - g^2(t) \nabla \log p_t(x)] \mathrm{d}t + g(t) \mathrm{d} \bar{W}_t \)</td>
+                      <td><b>?</b></td>
+                    </tr>
+                  </table>
+                It has been proved<d-cite key="albergo2023stochastic"></d-cite> that under the same \(\alpha_t\) and  \(\sigma_t\), Diffusion and Flow-based methods share the same time-evolving process:  
+                Flow-Based ODE's corresponding \(p_t(x)\) coincides with that of Diffusion-Based ODE and SDE. <br>
+                In our work, we proceed to demonstrate the mathematical equivalences and performance influences of other components in the above table. We also managed to fill in the question mark by showing that Flow-based methods can also be sampled by an reverse-time SDE despite the lack of a forward SDE.
             </p>
             <p>
-                Multimodal LLMs (MLLMs) <d-cite key="sundararajan2017axiomatic"></d-cite><d-cite key="flamingo"></d-cite><d-cite key="minigpt4"></d-cite><d-cite key="llava"></d-cite><d-cite key="InstructBLIP"></d-cite>  try to emulate humans' ability to integrate multimodal information and perform general tasks. Significant advances have been made in this domain
-                However, a key limitation of current MLLMs is their dependence on pre-trained (and often frozen) vision encoders, such as the CLIP image encoder. This dependency forms a major bottleneck for visual information processing. 
-                The vision encoder is often trained on images with low resolution, such as 224&times;224 or 336&times;336 pixels. During deployment, images are also often resized to a lower resolution. As a result, the encoder may overlook important details in high-resolution images. Additionally, current MLLMs struggle to identify which essential visual details are missing or unclear in the images they process. Nor can they proactively seek out or request this missing information. In such senarios, even the most powerfull multimodal Intelligent system GPT-4V would fail while our MLLM with visual search mechanism can make correct responses.
-                <d-figure>
+                
+                <!-- <d-figure>
                     <figure class="l-body">
                         <div id='figure1_div'></div>
                         <script src="figure1.js"></script>
@@ -90,94 +176,464 @@
                             Examples on which GPT-4V fails while SEAL with the visual search mechanism succeeds. Even though GPT-4V has a much more powerful LLM (GPT-4) than ours (Vicuna-7B), it still occasionally struggles in scenarios that demand extensive visual processing. These situations require precise visual grounding in high-resolution images, a task where the visual search mechanism becomes essential. Click the small images at the bottom to choose different examples.
                         </figcaption>
                     </figure>
-                </d-figure>
+                </d-figure> -->
             </p>
         </section>
         <section id="framework">
-            <h2>SEAL Framework</h2>
+            <h2>Scalable Interpolant Transformers</h2>
             <p>
-            Our proposed SEAL is a general framework comprised of a VQA LLM and a visual search model which collaborate and interact through the visual working memory (VWM). In this work, we provide a simple instantiation of the SEAL framework to validate its effectiveness and choose the LLaVA-7B structure as the MLLM in the SEAL framework.
+                From the above table, we summarize the design space into four components. 
+                <ul>
+                    <li><b><span style="color: #014421">Timespace</span></b>: discrete or continuous time interval; </li>
+                    <li><b><span style="color: #FF7F00">Model Prediction</span></b>: the objectives of \(\mathcal{L}_s\) or \(\mathcal{L}_v\);</li>
+                    <li><b><span style="color: #8F00FF">Interpolant</span></b>: the choices of \(\alpha_t\) and \(\sigma_t\);</li>
+                    <li><b><span style="color: #008080">Sampler</span></b>: ODE or SDE.</li>
+                </ul>
+                Systematically varying these components in the design space, we construct our SiT model, which consistently outperforms the DiT model in generating \(256 \times 256\) ImageNet images.
+                <d-figure >
+                    <table class="display-table" style="margin-top:25px">
+                        <tr>
+                            <th>Model</th>
+                            <th>Params(M)</th>
+                            <th>Training Steps</th>
+                            <th>FID ↓</th>
+                        </tr>
+                        <tr>
+                            <td>DiT-S</td>
+                            <td>33</td>
+                            <td>400K</td>
+                            <td>68.4</td>
+                        </tr>
+                        <tr>
+                            <td>SiT-S</td>
+                            <td>33</td>
+                            <td>400K</td>
+                            <td><strong>57.6</strong></td>
+                        </tr>
+                        <tr>
+                            <td>DiT-B</td>
+                            <td>130</td>
+                            <td>400K</td>
+                            <td>43.5</td>
+                        </tr>
+                        <tr>
+                            <td>SiT-B</td>
+                            <td>130</td>
+                            <td>400K</td>
+                            <td><strong>33.5</strong></td>
+                        </tr>
+                        <tr>
+                            <td>DiT-L</td>
+                            <td>458</td>
+                            <td>400K</td>
+                            <td>19.5</td>
+                        </tr>
+                        <tr>
+                            <td>SiT-L</td>
+                            <td>458</td>
+                            <td>400K</td>
+                            <td><strong>17.2</strong></td>
+                        </tr>
+                        <tr>
+                            <td>DiT-XL</td>
+                            <td>675</td>
+                            <td>400K</td>
+                            <td>9.6</td>
+                        </tr>
+                        <tr>
+                            <td>SiT-XL</td>
+                            <td>675</td>
+                            <td>400K</td>
+                            <td><strong>8.6</strong></td>
+                        </tr>
+                        <tr>
+                            <td>DiT-XL<sub>(cfg=1.5)</sub></td>
+                            <td>675</td>
+                            <td>7M</td>
+                            <td>2.27</td>
+                        </tr>
+                        <tr>
+                            <td>SiT-XL<sub>(cfg=1.5)</sub></td>
+                            <td>675</td>
+                            <td>7M</td>
+                            <td><strong>2.06</strong></td>
+                        </tr>
+                    </table>
+                    <figcaption style="text-align: center;">Across all model sizes, SiT performs better than DiT. <i>What's the source of the performance gain?</i></figcaption>
+                </d-figure>
+            </p>
+            <p>
+                To investigate such performance improvement, we gradually transition from a DiT model, a typical denoising diffusion model (<span style="color: #014421">discrete</span>, <span style="color: #FF7F00">denoising</span>, <span style="color: #8F00FF">variance preserving</span>, and <span style="color: #008080">SDE</span>) to our SiT model via a series of orthogonal steps in the design space. As we progress, we carefully evaluate how each move away from the diffusion model impacts the performance in the following sections. 
+            </p>
+            <p>
+                To conduct such study, we use the same backbone architecture of DiT-B and training hyperparameters for all models. We also maintain number of parameters, GFLOPs, and training schedule (400K steps) to be identical for all models. 
+                All the numbers presented in tables are FID-50K score evaluated with respect to ImageNet256 training set, and produced by a 250 steps Heun ODE solver without otherwise specified. For solving the SDE, we used an Euler-Maruyama integrator. 
+            </p>
+            <h3 id="Timespace"><span style="color: #014421">Timespace</span></h3>
+            <p>
+                The first move away is well-studied: we switch from a discrete-time denoising model to a continuous-time score model. Marginal performance improvement is observed.
+                <d-figure>
+                    <table class="display-table" style="text-align: center;">
+                        <tr>
+                            <th>    </th>
+                            <th><i>Objective</i></th>
+                            <th>FID</th>
+                        </tr>
+                        <tr>
+                            <td>DDPM</td>
+                            <td>\( \mathcal{L}_s^\dagger \)</td>
+                            <td>44.2</td>
+                        </tr>
+                        <tr>
+                            <td>SBDM</td>
+                            <td>\( \mathcal{L}_s \)</td>
+                            <td><strong>43.6</strong></td>
+                        </tr>
+                    </table>
+                    <figcaption style="text-align: center;"><strong>DDPM vs. SBDM.</strong> \( \dagger \) <i>DDPM uses the discretized objective.</i></figcaption>
+                </d-figure>
+            </p>
+            <h3 id="ModelPrediction"><span style="color: #FF7F00">Model Prediction</span></h3>
+            <p>
+                We claim that <i>velocity</i> model is related to <i>score</i> model by a time-dependent weighting function. To be specific, we discovere that \[
+                v(x_t, t) = \frac{\dot \alpha_t}{\alpha_t} x_t - \lambda_t\sigma_t s(x_t, t)
+                \]
+                with \( \lambda_t = \dot \sigma_t - \frac{\dot \alpha_t \sigma_t}{\alpha_t} \). Plug this linear relation into \(\mathcal{L}_v\), we obtain \[
+                \begin{align*}
+                    \mathcal{L}_{v}(\theta) 
+                    &= \int_0^T \lambda_t^2 \mathbb{E}[\Vert  \sigma_t s_\theta(x_t, t) + \varepsilon \Vert^2] \mathrm{d} t \\
+                    &= \mathcal{L}_{s_\lambda}(\theta)
+                \end{align*}
+                \]
+                this aligns with the observation made in <d-cite key="kingma2023understanding"></d-cite>, that different model predictions of diffusion models corresponding to a vanilla denosiing objective weighted by different time-dependent functions.
+                We trained all three models and present the results below. 
+                <d-figure>
+                    <table class="display-table" style="text-align: center;">
+                        <tr>
+                            <th>Interpolant</th>
+                            <th><i>Objective</i></th>
+                            <th>FID</th>
+                        </tr>
+                        <tr>
+                            <td>SBDM-VP</td>
+                            <td>\( \mathcal{L}_s\)</td>
+                            <td>43.6</td>
+                        </tr>
+                        <tr>
+                            <td>SBDM-VP</td>
+                            <td>\( \mathcal{L}_{s_\lambda} \)</td>
+                            <td><strong>39.1</strong></td>
+                        </tr>
+                        <tr>
+                            <td>SBDM-VP</td>
+                            <td>\( \mathcal{L}_v \)</td>
+                            <td>39.8</td>
+                        </tr>
+                    </table>
+                    <figcaption style="text-align: center;"><strong>Effect of different model predictions.</strong></figcaption>
+                </d-figure>
+                <br>
+                As \(t \to 0\), \(\dot \sigma_t \to -\infty\) under the variance preserving setting, making \(\lambda_t^2\) blow up to infinity as well. In practice, we follow the setting of SBDM and clip both training and sampling to the interval \([\varepsilon, 1]\) to avoid numerical stability. 
+                As a result, the large \(\lambda_\varepsilon\) is able to compensate for the vanishing gradient of \(\mathcal{L}_s\), but in turn makes \(\mathcal{L}_v\) harder to optimize.
                 <d-figure>
                     <figure>
-                        <img src="images/pipeline_v2.jpg" alt="SEAL Framework">
-                        <figcaption>An instantiation of the proposed SEAL framework. The left part is the VQA LLM which takes all the information in the VWM to answer questions. The right part demonstrates the LLM-guided visual search process.</figcaption>
+                        <img src="images/time_weight.png" style="display: block; margin-left: auto; margin-right: auto; width: 80%;" alt="time-dependent weighting">
+                        <figcaption style="text-align: center;">Plot of \( \lambda_t^2 \) clipped on \([10^{-5}, 1]\).</figcaption>
                     </figure>
                 </d-figure>
             </p>
-            <h3 id="VQALLM">VQA LLM with Visual Working Memory</h3>
+            <h3 id="Interpolant"><span style="color: #8F00FF">Interpolant</span></h3>
             <p>
-                Our VQA LLM first actively reasons about whether the initial visual feature from the vision encoder is enough to answer the question. If not, it explicitly lists all the needed but missing information in the format of a list of target objects. Then, it initializes a VWM which will contain 1) initial textual question; 2) initial global image; 3) target object crops after search; 4) coordinates of the searched targets. Next, the visual search model searches over the image and localizes each required target. A region containing the retrieved target is then cropped from the whole image and filled in the VWM together with the coordinates of the target. After that, the VQA LLM processes the information contained in the VWM and generates the response accordingly.
-            </p>
-            <h3 id="VisualSearch"><i>V</i><sup>*</sup>: LLM-guided Visual Search</h3>
-            <p>
-                Given a high-resolution image, it is likely that the target object can not be accurately identified and localized when just viewing the whole image as a miniature. To tackle this problem, one intuitive solution is dividing the image into fixed-size small sub-images and exhaustively conducting the localization on each sub-image. However, this simple strategy becomes prohibitively inefficient when considering the case of any resolution images. 
-            </p>
-            <p>
-                As humans' visual search process is guided by contextual scene guidance and top-down feature guidance, we adopt similar ideas to design our visual search model <i>V</i><sup>*</sup> utilizing an MLLM which encapsulates a mass of common sense knowledge about the world. In order to complete the whole searching process, we also equip the MLLM with localization ability with localization decoders.
-            </p>
-            <p>With this visual search model, our visual search process goes as follows. Given an image and a textual expression of the target object, the MLLM first attempts to locate the target. In this step, \(\bm{v}_{loc}\) corresponding to the target object generated by the MLLM is fed to both \(D_{tl}\) and \(D_{cl}\) to obtain the coordinates with confidence score and the heatmap. When no object is located in the current image (the confidence score is smaller than a pre-defined threshold), we scrutinize the heatmap for possible target-specific cues. 
-    
-                The heatmap highlights regions that look similar to the queried target object, representing the target-specific cue. When the target-specific cue is prominent (<i>ie.</i> the maximum value of the heatmap is larger than a threshold \(\delta\)), we use it as guidance for the search. Otherwise, we ask the MLLM what is the most likely location of the target object in the image. This requires the MLLM to utilize its common sense knowledge and combine it with the image context to give us the contextual cue about the target. After getting an expression indicating the region where the target object is likely to be found, we prompt the MLLM to locate this expression with the \(D_{cl}\) decoder and get the heatmap corresponding to the contextual cue. 
+                We mainly experiment with three choices of interpolants:
+                <ul>
+                    <li><b>VP</b>: \(\alpha_t = e^{-\tfrac12 \int_0^t\beta_s \mathrm{d} s} \), \( \sigma_t = \sqrt{1- e^{- \int_0^t\beta_s \mathrm{d} s}}\)</li>
+                    <li><b>GVP</b>: \(\alpha_t = \cos(\frac12 \pi t) \), \( \sigma_t = \sin(\frac12 \pi t)\)</li>
+                    <li><b>Linear</b>: \(\alpha_t = 1 - t\), \(\sigma_t = t\)</li>
+                </ul>
+                <d-figure>
+                    <figure>
+                        <img src="images/intpl.gif" style="display: block; margin-left: auto; margin-right: auto; width: 80%;" alt="density interpolation">
+                        <figcaption style="text-align: center;">Transition from a standard Gaussian to Bernoulli distribution defined at \(\pm 1\), using the above three interpolants</figcaption>
+                    </figure>
+                </d-figure>
+                Again, large performance differences are observed across different interpolants. We present the results below. <br>
+                <br>
+                <d-figure>
+                    <table class="display-table" style="text-align: center;">
+                        <tr>
+                            <th>Interpolant</th>
+                            <th><i>Objective</i></th>
+                            <th>FID</th>
+                        </tr>
+                        <tr>
+                            <td>SBDM-VP</td>
+                            <td>\( \mathcal{L}_v\)</td>
+                            <td>39.8</td>
+                        </tr>
+                        <tr>
+                            <td>GVP</td>
+                            <td>\( \mathcal{L}_v \)</td>
+                            <td><strong>34.6</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Linear</td>
+                            <td>\( \mathcal{L}_v \)</td>
+                            <td>34.8</td>
+                        </tr>
+                    </table>
+                    <figcaption style="text-align: center;"><strong>Effect of interpolants.</strong></figcaption>
+                </d-figure>
+                <br>
+                One possible explanation for this observation is given in the following figure, where we see that the path length (transport cost) is reduced when changing from SBDM-VP to GVP or Linear. Numerically, we also note that the singularity issue of \(\dot \sigma_t\) at \(t = 0\) does not appear with the GVP and Linear interpolants, making the model easier to learn near the data distribution.
+                <br>
+                <d-figure>
+                    <figure>
+                        <img src="images/length_time.png" style="display: block; margin-left: auto; margin-right: auto; width: 80%;" alt="path length">
+                        <figcaption style="text-align: center;"><b>Path Length.</b> The path length \(\mathcal(C)(v) = \int \mathbb{E}[|v(x_t, t)^2|] \mathrm{d}t\) arising from the velocity field at different training steps for the various interpolants; each curve is approximated by 10000 datapoints.
+                            </figcaption>
+                    </figure>
+                </d-figure>
                 
-                Then, we split the current image into smaller sub-images and assign them scores indicating their priorities to be explored based on the target-specific cue heatmap or the contextual cue heatmap. Based on the priorities, the sub-images are cropped and processed in turn. This recursive process continues until we successfully locate the target object or the current image patch is smaller than a pre-defined threshold.
-    
+            </p>
+            <h3 id="Sampler"><span style="color: #008080">Sampler</span></h3>
+            <p>We introduce more flexibility in sampling the <i>velocity</i> model in this section. Firstly, under SBDM setting, the reverse-time SDE for <i>velocity</i> can be constructed in the following way: \[
+                    dX_t = [v(X_t, t) - \frac12 g^2(t)s(X_t, t)]\mathrm{d}t + g(t) \mathrm{d} \bar{W}_t
+                \]
+                where we take advantage of the linear relationship between <i>velocity</i> and <i>score</i> to construct the drift term. We denote \(g(t)\) as the <b>SBDM diffusion coefficient</b>. 
+                Followed from previous sections, we can also construct such SDE for GVP and Linear interpolants given the relationship \(g^2(t) = 2\lambda_t\sigma_t\). The results are resented below 
+                <d-figure>
+                    <table class="display-table" style="text-align: center;">
+                        <tr>
+                            <th>Interpolant</th>
+                            <th><i>Objective</i></th>
+                            <th>ODE</th>
+                            <th>SDE</th>
+                        </tr>
+                        <tr>
+                            <td>SBDM-VP</td>
+                            <td>\( \mathcal{L}_v\)</td>
+                            <td>39.8</td>
+                            <td>37.8</td>
+                        </tr>
+                        <tr>
+                            <td>GVP</td>
+                            <td>\( \mathcal{L}_v \)</td>
+                            <td>34.6</td>
+                            <td><strong>32.9</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Linear</td>
+                            <td>\( \mathcal{L}_v \)</td>
+                            <td>34.8</td>
+                            <td>33.6</td>
+                        </tr>
+                    </table>
+                    <figcaption style="text-align: center;"><strong>ODE vs. SDE, SBDM diffusion</strong></figcaption>
+                </d-figure>
+            </p>
+            <p>
+                We further proposed that the diffusion coefficient \(g(t)\) can be tuned separately from the learning process. In fact, any non-negative function \(w(t)\) (not necessarily monotone) is eligible to be used as diffusio coefficient, and the reverse-time SDE can thus be generalized to \[
+                    dX_t = [v(X_t, t) - \frac12 w(t)s(X_t, t)]\mathrm{d}t + \sqrt{w(t)} \mathrm{d} \bar{W}_t
+                \]
+                Apart from SBDM coefficient, we also experiment with the choices of \(w(t) = \sigma_t\) (<i>to eliminate the singularity of score near data distribution</i>) and \(w(t) = \sin^2(\pi t)\), as well as their effects on either <i>velocity</i> or <i>score</i> models. 
+                <d-figure>
+                    <table class="display-table" style="text-align: center;">
+                        <tr>
+                            <th>Interpolant</th>
+                            <th><i>Objective</i></th>
+                            <th>\( w(t) = g(t)\) </th>
+                            <th>\( w(t) = \sigma_t \) </th>
+                            <th>\( w(t) = \sin^2(\pi t)\) </th>
+                        </tr>
+                        <tr>
+                            <td>SBDM-VP</td>
+                            <td>\( \mathcal{L}_v\)</td>
+                            <td>37.8</td>
+                            <td>38.7</td>
+                            <td>39.2</td>
+                        </tr>
+                        <tr>
+                            <td>    </td>
+                            <td>\( \mathcal{L}_{s_\lambda}\)</td>
+                            <td>35.7</td>
+                            <td>37.1</td>
+                            <td>37.7</td>
+                        </tr>
+                        <tr>
+                            <td>GVP</td>
+                            <td>\( \mathcal{L}_v \)</td>
+                            <td><strong>32.9</strong></td>
+                            <td>33.4</td>
+                            <td>33.6</td>
+                        </tr>
+                        <tr>
+                            <td>    </td>
+                            <td>\( \mathcal{L}_s \)</td>
+                            <td>38.0</td>
+                            <td>33.5</td>
+                            <td>33.2</td>
+                        </tr>
+                        <tr>
+                            <td>Linear</td>
+                            <td>\( \mathcal{L}_v \)</td>
+                            <td>33.6</td>
+                            <td>33.5</td>
+                            <td>33.3</td>
+                        </tr>
+                        <tr>
+                            <td>    </td>
+                            <td>\( \mathcal{L}_s \)</td>
+                            <td>41.0</td>
+                            <td>35.3</td>
+                            <td>34.4</td>
+                        </tr>
+                    </table>
+                    <figcaption style="text-align: center;"><strong>Evaluation of SDE with different diffusion coefficients</strong>. To make the SBDM-VP competitive we instead use the weighted objective.</figcaption>
+                </d-figure>
+                <br>
+                We note that the optimal choice of diffusion coefficient depends on the interpolant and the objective, and in our experiments, also largely depends on model sizes. Empirically, we observe the best choice for our SiT-XL is a <span style="color: #FF7F00">velocity</span> model with <span style="color: #8F00FF">Linear</span> interpolant and sampled using <span style="color: #008080">SDE</span> with \(w(t) = \sigma_t\) coefficient. 
+            </p>
+            <p>
+                Lastly, we note that the performance of ODE and SDE integrators may differ under different computation budget. As shown below, the ODE converges faster with fewer number of functions evaluations, while the SDE is capable of reaching a much lower final FID score when given a larger computational budget.
                 <d-figure>
                     <figure>
-                        <img src="images/vs_algo.jpg" alt="LLM-guided Visual Search Algorithm">
-                        <!-- <figcaption>An instantiation of the proposed SEAL framework. The left part is the VQA LLM which takes all the information in the VWM to answer questions. The right part demonstrates the LLM-guided visual search process.</figcaption> -->
+                        <img src="images/nfe_sampler.png" style="display: block; margin-left: auto; margin-right: auto; width: 80%;" alt="nfe sampler">
+                        <figcaption style="text-align: center;"><strong>Comparison of ODE and SDE w/ choices of diffusion coefficients.</strong> Each point is evaluated with 10K samples.</figcaption>
                     </figure>
                 </d-figure>
+            </p>
+            <h3>Classifier-free Guidance</h3>
+            <p>In this section, we give a concise justification for adopting it on the velocity model, and then empirically show that the drastic gains in performance for DiT case carry across to SiT.</p>
+            <p>Guidance for a velocity field means that: (i) that the velocity model \(v_\theta(x_t, t, y)\) takes class labels \(y\) during training, where \(y\) is occasionally masked with a null token \(\emptyset\); and (ii) during sampling the velocity used is \(v_\theta^\zeta(x_t, t, y) = \zeta v_\theta(x_t, t, y) + (1 - \zeta) v_\theta(x_t, t, \emptyset)\) for a fixed \(\zeta > 0\). Given this observation, one can leverage the usual argument for classifier-free guidance on score-based models.
+                For a CFG scale of \(\zeta = 1.5\), DiT-XL sees an improvement in FID from a 9.6 (non-CFG) down to 2.27 (CFG). We observed similar performance improvement with our largest SiT-XL model under identical computation budget and CFG scale. Sampled with an ODE, the FID-50K score improved from 9.4 to 2.15; with an SDE, the FID improved from 8.6 to 2.06. This shows that SiT benefits from the same training and sampling choices explored previously, and can surpass DiT's performance in each training setting, not only with respect to model size, but also with respect to sampling choices.</p>
+                <br>
+            <d-figure>
+                <table class="display-table" style="text-align: center;">
+                    <tr>
+                        <th colspan="6">Class-Conditional ImageNet \(256\times256\)</th>
+                    </tr>
+                    <tr>
+                        <th>Model</th>
+                        <th>FID \(\downarrow\)</th>
+                        <th>sFID \(\downarrow\)</th>
+                        <th>IS \(\uparrow\)</th>
+                        <th>Precision \(\uparrow\)</th>
+                        <th>Recall \(\uparrow\)</th>
+                    </tr>
+                    <tr>
+                        <td>BigGAN-deep<d-cite key="brock2019large"></d-cite></td>
+                        <td>6.95</td>
+                        <td>7.36</td>
+                        <td>171.4</td>
+                        <td><strong>0.87</strong></td>
+                        <td>0.28</td>
+                    </tr>
+                    <tr>
+                        <td>StyleGAN-XL<d-cite key="karras2019stylebased"></d-cite></td>
+                        <td>2.30</td>
+                        <td><strong>4.02</strong></td>
+                        <td>265.12</td>
+                        <td>0.78</td>
+                        <td>0.53</td>
+                    </tr>
+                    <tr>
+                        <td>Mask-GIT<d-cite key="chang2022maskgit"></d-cite></td>
+                        <td>6.18</td>
+                        <td>-</td>
+                        <td>182.1</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>ADM<d-cite key="dhariwal2021diffusion"></d-cite></td>
+                        <td>10.94</td>
+                        <td>6.02</td>
+                        <td>100.98</td>
+                        <td>0.69</td>
+                        <td>0.63</td>
+                    </tr>
+                    <tr>
+                        <td>ADM-G, ADM-U</td>
+                        <td>3.94</td>
+                        <td>6.14</td>
+                        <td>215.84</td>
+                        <td>0.83</td>
+                        <td>0.53</td>
+                    </tr>
+                    <tr>
+                        <td>CDM<d-cite key="ho2021cascaded"></d-cite></td>
+                        <td>4.88</td>
+                        <td>-</td>
+                        <td>158.71</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>RIN<d-cite key="jabri2023scalable"></d-cite></td>
+                        <td>3.42</td>
+                        <td>-</td>
+                        <td>182.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Simple Diffusion(U-Net)<d-cite key="hoogeboom2023simple"></d-cite></td>
+                        <td>3.76</td>
+                        <td>-</td>
+                        <td>171.6</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Simple Diffusion(U-ViT, L)</td>
+                        <td>2.77</td>
+                        <td>-</td>
+                        <td>211.8</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>VDM++<d-cite key="kingma2023understanding"></d-cite></td>
+                        <td>2.12</td>
+                        <td>-</td>
+                        <td>267.7</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>DiT-XL(cfg=1.5)</td>
+                        <td>2.27</td>
+                        <td>4.60</td>
+                        <td>278.24</td>
+                        <td>0.83</td>
+                        <td>0.57</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SiT-XL(cfg=1.5, ODE)</strong></td>
+                        <td>2.15</td>
+                        <td>4.60</td>
+                        <td>258.09</td>
+                        <td>0.81</td>
+                        <td>0.60</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SiT-XL(cfg=1.5, SDE:\(\sigma_t\))</strong></td>
+                        <td><strong>2.06</strong></td>
+                        <td>4.50</td>
+                        <td>270.27</td>
+                        <td>0.82</td>
+                        <td>0.59</td>
+                    </tr>
+                </table>
+                <figcaption><strong>Benchmarking class-conditional image generation on ImageNet 256x256.</strong> SiT-XL surpasses DiT-XL in FID when using either of the samplers, ODE or SDE-based.</figcaption>
+            </d-figure>
             
-            </p>
-            <p>
-                Our LLM-guided visual search process with <i>V</i><sup>*</sup> shares some similarities with the informed search algorithm <i>A</i><sup>*</sup>. The <i>A</i><sup>*</sup> search algorithm is a path search algorithm which finds the shortest path between a start and a goal node using a heuristic to estimate the cost. The LLM-guided visual search algorithm of our <i>V</i><sup>*</sup> can viewed as a special case of <i>A</i><sup>*</sup> where the sub-images are viewed as nodes and \(g(n)\) is a positive constant for all \(n\) and the heuristic function \(h(n)\) is \(-1\times\) (score calculated from the heatmap). However, the goal of the <i>A</i><sup>*</sup> search algorithm is to find a path with the minimum cost from the start to the goal, while in our case, we only care about the total number of steps needed to find the goal.
-            </p>
         </section>
         
-        <section id="QuantRes">
-            <h2>SEAL-Bench</h2>  
+        <section id="conclusion">
+            <h2>Conclusion</h2>
             <p>
-                The multimodal VQA benchmark <b>SEAL-Bench</b> is built on 191 high-resolution images from SAM <d-cite key="SAM"></d-cite>.
-    
-                SEAL-Bench contains two sub-tasks: attribute recognition and spatial relationship reasoning. The attribute recognition task has 115 samples and requires the model to recognize a certain type of attribute (<i>eg.</i> color, material) of an object. The spatial relationship reasoning task has 76 samples and asks the model to determine the relative spatial relationship between two objects. These tasks emphasize the perceptual capability of the multimodal models.
-    
-                <d-figure>
-                    <figure class="l-body">
-                        <div id='figure2_div'></div>
-                        <script src="figure2.js"></script>
-                        <figcaption>
-                            Examples of the SEAL-Benchmark. The top row belongs to the attribute recognition task while the bottom row belongs to the spatial relationship reasoning task. The correct option is in green. Click the small images at the bottom to choose different examples.
-                        </figcaption>
-                    </figure>
-                </d-figure>
-                We evaluate SEAL with other open-source end-to-end MLLMs and LLM-tool-using systems on the proposed SEAL-Bench.
-    
-                <d-figure>
-                        <img src="images/table.jpg" alt="SEAL-Bench Results" width="60%" style="display: block; margin-left: auto; margin-right: auto;">
-                        <figcaption>Evaluation of multimodal systems on SEAL-Bench. Our model shows superior performance, validating the necessity of incorporating the visual search mechanism into MLLMs.</figcaption>
-                </d-figure>
-            </p>
-        </section>
-        
-        <section id="QualiRes">
-            <h2>Effectiveness of <i>V</i><sup>*</sup></h2>
-            <p>
-                We evaluate different search strategies in terms of search length on 245 target objects in SEAL-Bench. The search length here is defined as the number of search steps from the initial image to the one where the target is located. We compare our LLM-guided search strategy with two baselines. The random baseline adopts the random strategy to pick a random sub-image to explore, and the sequential baseline searches the sub-images in sequential order. These two strategies are evaluated in breadth-first search (BFS) and depth-first search settings respectively.
-                <d-figure>
-                    <img src="images/search_path.jpg" alt="SEAL-Bench Results" width="50%" style="display: block; margin-left: auto; margin-right: auto;">
-                    <figcaption>Evaluation of different search strategies in terms of search length on SEAL-Bench. Our LLM-guided search could greatly reduce the average search length and both two guiding cues are helpful for the search process</figcaption>
-                </d-figure>
-
-                <d-figure>
-                    <figure class="l-body">
-                        <div id='figure3_div'></div>
-                        <script src="figure3.js"></script>
-                        <figcaption>
-                            Examples of the LLM-guided visual search process. Click the arrow to see different step of the visual search process. Click the small images at the bottom to choose different examples.
-                        </figcaption>
-                    </figure>
-                </d-figure>
-                
+                In this work, we have presented Scalable Interpolant Transformers, a simple and powerful framework for image generation tasks. Within the framework, we explored the tradeoffs between a number of key design choices: the choice of a <b><span style="color: #014421">continuous</span></b> or <b><span style="color: #014421">discrete</span></b>-time model, the choice of <b><span style="color: #8F00FF">interpolant</span></b>, the choice of <b><span style="color: #FF7F00">model predcition</span></b>, and the choice of <b><span style="color: #008080">samplers</span></b> . We highlighted the advantages and disadvantages of each choice and demonstrated how careful decisions can lead to significant performance improvements. Many concurrent works<d-cite key="gupta2023photorealistic"></d-cite><d-cite key="liu2023zero1to3"></d-cite><d-cite key="meng2022sdedit"></d-cite> explore similar approaches in a wide variety of downstream tasks, and we leave the application of SiT to these tasks for future works.
             </p>
         </section>
         
@@ -186,7 +642,7 @@
             <h3>BibTeX</h3>
             <p class="bibtex">
                 @article{SEAL,<br>
-                &nbsp;&nbsp;title={V*: Guided Visual Search as a Core Mechanism in Multimodal LLMs},<br>
+                &nbsp;&nbsp;title={SiT: Exploring Flow and Diffusion-based Generative Models with Scalable Interpolant Transformers},<br>
                 &nbsp;&nbsp;author={Penghao Wu and Saining Xie},<br>
                 &nbsp;&nbsp;year={2023},<br>
                 &nbsp;&nbsp;journal={arXiv preprint arXiv:2312},<br>
@@ -195,13 +651,9 @@
 
             <d-footnote-list></d-footnote-list>
             <d-citation-list></d-citation-list>
-          </d-appendix>
-          
-            <d-footnote-list></d-footnote-list>
-            <d-citation-list></d-citation-list>
         </d-appendix>
 
-          <!-- bibliography will be inlined during Distill pipeline's pre-rendering -->
+        <!-- bibliography will be inlined during Distill pipeline's pre-rendering -->
         <d-bibliography src="bibliography.bib"></d-bibliography>
 
         <!-- <script type="text/bibliography">
@@ -210,6 +662,8 @@
         <script src="contents_bar.js"></script>
         
         
+
+    </body>
 
     </body>
 </html>

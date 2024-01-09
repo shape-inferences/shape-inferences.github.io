@@ -49,6 +49,22 @@
   color: #fff; /* White text on hover */
 }
 
+.display-table {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.display-table th td {
+  border-bottom: 1px solid black;
+  text-align: center;
+  padding: 8px;
+}
+
+.display-table th {
+  border-top: 1px solid black;
+}
+
 /* Styles for larger screens using a media query */
 @media (min-width: 600px) {
   .header-container {
