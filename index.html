@@ -191,7 +191,7 @@
                 </ul>
                 Systematically varying these components in the design space, we construct our SiT model, which consistently outperforms the DiT model in generating \(256 \times 256\) ImageNet images.
                 <d-figure >
-                    <table class="display-table" style="margin-top:25px">
+                    <table class="display-table" style="margin-top:25px;">
                         <tr>
                             <th>Model</th>
                             <th>Params(M)</th>
@@ -199,61 +199,61 @@
                             <th>FID \(\downarrow\)</th>
                         </tr>
                         <tr>
-                            <td>DiT-S</td>
+                            <td  style="text-align: left;">DiT-S</td>
                             <td>33</td>
                             <td>400K</td>
                             <td>68.4</td>
                         </tr>
                         <tr>
-                            <td>SiT-S</td>
+                            <td style="text-align: left;">SiT-S</td>
                             <td>33</td>
                             <td>400K</td>
                             <td><strong>57.6</strong></td>
                         </tr>
                         <tr>
-                            <td>DiT-B</td>
+                            <td style="text-align: left;">DiT-B</td>
                             <td>130</td>
                             <td>400K</td>
                             <td>43.5</td>
                         </tr>
                         <tr>
-                            <td>SiT-B</td>
+                            <td style="text-align: left;">SiT-B</td>
                             <td>130</td>
                             <td>400K</td>
                             <td><strong>33.5</strong></td>
                         </tr>
                         <tr>
-                            <td>DiT-L</td>
+                            <td style="text-align: left;">DiT-L</td>
                             <td>458</td>
                             <td>400K</td>
                             <td>19.5</td>
                         </tr>
                         <tr>
-                            <td>SiT-L</td>
+                            <td style="text-align: left;">SiT-L</td>
                             <td>458</td>
                             <td>400K</td>
                             <td><strong>17.2</strong></td>
                         </tr>
                         <tr>
-                            <td>DiT-XL</td>
+                            <td style="text-align: left;">DiT-XL</td>
                             <td>675</td>
                             <td>400K</td>
                             <td>9.6</td>
                         </tr>
                         <tr>
-                            <td>SiT-XL</td>
+                            <td style="text-align: left;">SiT-XL</td>
                             <td>675</td>
                             <td>400K</td>
                             <td><strong>8.6</strong></td>
                         </tr>
                         <tr>
-                            <td>DiT-XL<sub>(cfg=1.5)</sub></td>
+                            <td style="text-align: left;">DiT-XL<sub>(cfg=1.5)</sub></td>
                             <td>675</td>
                             <td>7M</td>
                             <td>2.27</td>
                         </tr>
                         <tr>
-                            <td>SiT-XL<sub>(cfg=1.5)</sub></td>
+                            <td style="text-align: left;">SiT-XL<sub>(cfg=1.5)</sub></td>
                             <td>675</td>
                             <td>7M</td>
                             <td><strong>2.06</strong></td>
@@ -350,7 +350,7 @@
                     <li><b>GVP</b>: \(\alpha_t = \cos(\frac12 \pi t) \), \( \sigma_t = \sin(\frac12 \pi t)\)</li>
                     <li><b>Linear</b>: \(\alpha_t = 1 - t\), \(\sigma_t = t\)</li>
                 </ul>
-                Below are some examples demonstrating the effects of the above interoplants on simple 1D distributions. On an aligned time interval starting from a standard Gaussian distribution, we note that VP interpolant changes most drastically in both cases while GVP and Linear interpolants are more smooth. Intuitively, such abrupt change in the VP interpolant increases the Lipschitz constant of the velocity field, making its learning more difficult. <d-cite key="albergo2023stochastic"></d-cite>. 
+                Below are some examples demonstrating the effects of the above interoplants on simple 1D distributions. On an aligned time interval starting from a standard Gaussian distribution, we note that VP interpolant changes most drastically in both cases while GVP and Linear interpolants are more smooth. Intuitively, such abrupt change in the VP interpolant increases the Lipschitz constant of the velocity field, making its learning more difficult<d-cite key="albergo2023stochastic"></d-cite>. 
                 <d-figure>
                     <figure>
                         <div style="display: flex; justify-content: center;">
@@ -395,7 +395,7 @@
                 <d-figure>
                     <figure>
                         <img src="images/length_time.png" style="display: block; margin-left: auto; margin-right: auto; width: 80%;" alt="path length">
-                        <figcaption style="text-align: center;"><b>Path Length.</b> The path length \(\mathcal(C)(v) = \int \mathbb{E}[|v(x_t, t)^2|] \mathrm{d}t\) arising from the velocity field at different training steps for the various interpolants; each curve is approximated by 10000 datapoints.
+                        <figcaption style="text-align: center;"><b>Path Length.</b> The path length \(\mathcal{C}(v) = \int \mathbb{E}[|v(x_t, t)^2|] \mathrm{d}t\) arising from the velocity field at different training steps for the various interpolants; each curve is approximated by 10000 datapoints.
                             </figcaption>
                     </figure>
                 </d-figure>
@@ -438,7 +438,7 @@
                 </d-figure>
             </p>
             <p>
-                We further proposed that the diffusion coefficient \(g(t)\) can be tuned separately from the learning process. In fact, any non-negative function \(w(t)\) (not necessarily monotone) is eligible to be used as diffusio coefficient, and the reverse-time SDE can thus be generalized to \[
+                We further proposed that the diffusion coefficient \(g(t)\) can be tuned separately from the learning process. In fact, any non-negative function \(w(t)\) (not necessarily monotone) is eligible to be used as diffusion coefficient, and the reverse-time SDE can thus be generalized to \[
                     dX_t = [v(X_t, t) - \frac12 w(t)s(X_t, t)]\mathrm{d}t + \sqrt{w(t)} \mathrm{d} \bar{W}_t
                 \]
                 Apart from SBDM coefficient, we also experiment with the choices of \(w(t) = \sigma_t\) (<i>to eliminate the singularity of score near data distribution</i>) and \(w(t) = \sin^2(\pi t)\), as well as their effects on either <i>velocity</i> or <i>score</i> models. 
