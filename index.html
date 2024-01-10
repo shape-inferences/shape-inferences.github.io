@@ -350,13 +350,19 @@
                     <li><b>GVP</b>: \(\alpha_t = \cos(\frac12 \pi t) \), \( \sigma_t = \sin(\frac12 \pi t)\)</li>
                     <li><b>Linear</b>: \(\alpha_t = 1 - t\), \(\sigma_t = t\)</li>
                 </ul>
+                Below are some examples demonstrating the effects of the above interoplants on simple 1D distributions. On an aligned time interval starting from a standard Gaussian distribution, we note that VP interpolant changes most drastically in both cases while GVP and Linear interpolants are more smooth. Intuitively, such abrupt change in the VP interpolant increases the Lipschitz constant of the velocity field, making its learning more difficult. <d-cite key="albergo2023stochastic"></d-cite>. 
                 <d-figure>
                     <figure>
-                        <img src="images/intpl.gif" style="display: block; margin-left: auto; margin-right: auto; width: 80%;" alt="density interpolation">
-                        <figcaption style="text-align: center;">Transition from a standard Gaussian to Bernoulli distribution defined at \(\pm 1\), using the above three interpolants</figcaption>
+                        <div style="display: flex; justify-content: center;">
+                            <img src="images/intpl.gif" style="display: block; margin-left: auto; margin-right: auto; width: 50%;" alt="density interpolation">
+                            <img src="images/intpl_2.gif" style="display: block; margin-left: auto; margin-right: auto; width: 50%;" alt="density interpolation">
+                        </div>
+                        <figcaption >Density Transformation using the above three interpolants.
+                             <b>Left</b>: from a standard Gaussian to Bernoulli distribution defined at \(\pm 1\).
+                             <b>Right</b>: from a standard Gaussian to a Gaussian mixture with two modes at \(-1\) and \(2\). </figcaption>
                     </figure>
                 </d-figure>
-                Again, large performance differences are observed across different interpolants. We present the results below. <br>
+                Moving from toy examples to image generation tasks, we again observe large performance differences across different interpolants. We present the results below. <br>
                 <br>
                 <d-figure>
                     <table class="display-table" style="text-align: center;">
