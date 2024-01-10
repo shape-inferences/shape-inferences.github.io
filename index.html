@@ -33,7 +33,7 @@
             <div class="byline-container">
                 <div class="byline-column">
                     <h3>Authors</h3>
-                    <p><a href="https://willisma.github.io/" class="author-link">Willis Ma</a></p>
+                    <p><a href="https://willisma.github.io/" class="author-link">Nanye (Willis) Ma</a></p>
                     <p><a href="https://marikgoldstein.github.io/" class="author-link">Mark Goldstein</a></p>
                     <p><a href="http://malbergo.me/" class="author-link">Michael S. Albergo</a></p>
                     <p><a href="https://nmboffi.github.io/" class="author-link">Nicholas M. Boffi</a></p>
@@ -93,9 +93,9 @@
                 $$
                 with t defined on \([0, T]\), \(\alpha_t, \sigma_t\) being time-dependent functions and chosen such that \(x_0 \sim p(x)\), \(x_T \sim \mathcal{N}(0, \mathbf{I})\). 
                 At each \(t\), \(x_t\) has a conditional density \(p_t(x | x_*, \varepsilon) = \mathcal{N}(\alpha_t x_*, \sigma_t^2\mathbf{I})\), 
-                and our goal is to estimate the marginal density \(p_t(x) = \int p_t(x | x_*, \varepsilon) p(x) p(\varepsilon)dx d\varepsilon\).
+                and our goal is to estimate the marginal density \(p_t(x) = \int p_t(x | x_*, \varepsilon) p(x) p(\varepsilon) \mathrm{d}x \mathrm{d}\varepsilon\).
                 In most cases, the marginal density \(p_t(x)\) is in tractable. 
-                Some previous methods<d-cite key="chen2019neural"></d-cite><d-cite key="kingma2018glow"></d-cite><d-cite key="grathwohl2018ffjord"></d-cite><d-cite key="dinh2015nice"></d-cite> focus on maximizing the likelihood \(\log p(x)\), whereas modern approaches take advantage of differential equations with the corresponding marginal density \(p_t(x)\) to directly estmate data samples from \(p(x)\).
+                Some previous methods<d-cite key="chen2019neural"></d-cite><d-cite key="kingma2018glow"></d-cite><d-cite key="grathwohl2018ffjord"></d-cite><d-cite key="dinh2015nice"></d-cite> focus on maximizing the likelihood \(\log p_t(x)\), whereas modern approaches take advantage of differential equations with the corresponding marginal density \(p_t(x)\) to directly estmate data samples from \(p(x)\).
             </p>
             <p> 
                 <b>Diffusion-Based Models.</b>  
@@ -105,7 +105,7 @@
                 $$
                 where \(W_t\) is a standard Brownian motion. <br>
                 In practice, the model samples the process by learning the gradient of the likelihood \(\nabla \log p_t(x)\) (score) with a generative model \(s_\theta(x_t, t)\) under the score matching objective $$
-                    \mathcal{L}_s(\theta) = \int \mathbb{E}[\Vert s_\theta(x_t, t) + \frac{\varepsilon}{\sigma_t}  \Vert^2] \mathrm{d}t
+                    \mathcal{L}_s(\theta) = \int \mathbb{E}[\Vert \sigma_t s_\theta(x_t, t) + \varepsilon  \Vert^2] \mathrm{d}t
                 $$
                 Inference is done by solving either a probability flow ODE $$\mathrm{d}X_t =  [f(X_t, t) - \frac{1}{2} g^2(t) \nabla \log p_t(x)] \mathrm{d}t $$
                 or a reverse-time SDE $$
@@ -115,7 +115,7 @@
             </p> 
             <p>
                 <b>Stochastic Interpolant and Flow-Based Models.</b>
-                Stochastic Interpolant and other flow-based models<d-cite key="ipman2023flow"></d-cite><d-cite key="albergo2023building"></d-cite><d-cite key="albergo2023stochastic"></d-cite><d-cite key="liu2022flow"></d-cite> are the recent additions to this family, 
+                Stochastic Interpolant and other Flow-Based models<d-cite key="lipman2023flow"></d-cite><d-cite key="albergo2023building"></d-cite><d-cite key="albergo2023stochastic"></d-cite><d-cite key="liu2022flow"></d-cite> are the recent additions to this family, 
                 where the \(\alpha_t\) and  \(\sigma_t\) are restricted on time interval \([0,1]\) with \(\alpha_0 = \sigma_1 = 1\) and \(\alpha_1 = \sigma_0 = 0\), 
                 so that \(x_t\) exactly interpolate between \(x_*\) and \(\varepsilon\). We note that this gives more flexibility in the choice of the interpolating functions, as they are no longer subject to a forward SDE.<br>
                 Furthermore, these models use a simpler probability flow ODE for inference 
@@ -133,38 +133,38 @@
                 <table class="display-table">
                     <tr>
                       <th></th>
-                      <th>Diffusion-Based</th>
-                      <th>Flow-Based</th>
+                      <th style="text-align: center;">Diffusion-Based</th>
+                      <th style="text-align: center;">Flow-Based</th>
                     </tr>
                     <tr>
-                      <td>\( t \)</td>
-                      <td>\(\{0, \cdots, T\}\) (DDPM<d-cite key="ho2020denoising"></d-cite>) / \([0,1]\) (SBDM<d-cite key="song2021scorebased"></d-cite>) </td>
-                      <td>\([0,1]\)</td>
+                      <td style="text-align: left;">\( t \)</td>
+                      <td style="text-align: left;">\(\{0, \cdots, T\}\) (DDPM<d-cite key="ho2020denoising"></d-cite>) / \([0,1]\) (SBDM<d-cite key="song2021scorebased"></d-cite>) </td>
+                      <td style="text-align: left;">\([0,1]\)</td>
                     </tr>
                     <tr>
-                        <td>\( \mathcal{L}(\theta) \)</td>
-                        <td>\( \mathcal{L}_s \sim \Vert s_\theta(x_t, t) + \frac{\varepsilon}{\sigma_t}\Vert^2 \)</td>
-                        <td>\( \mathcal{L}_v \sim \Vert v_\theta(x_t, t) - \dot \alpha_t x_* - \dot \sigma_t \varepsilon \Vert^2 \)</td>
+                        <td style="text-align: left;">\( \mathcal{L}(\theta) \)</td>
+                        <td style="text-align: left;">\( \mathcal{L}_s \sim \Vert \sigma_t s_\theta(x_t, t) + \varepsilon\Vert^2 \)</td>
+                        <td style="text-align: left;">\( \mathcal{L}_v \sim \Vert v_\theta(x_t, t) - \dot \alpha_t x_* - \dot \sigma_t \varepsilon \Vert^2 \)</td>
                     </tr>
                     <tr>
-                      <td>\( x_t \)</td>
-                      <td>\( \alpha_t x + \sigma_t \varepsilon \)</td>
-                      <td>\( \alpha_t x + \sigma_t \varepsilon \)</td>
+                      <td style="text-align: left;">\( x_t \)</td>
+                      <td style="text-align: left;">\( \alpha_t x + \sigma_t \varepsilon \)</td>
+                      <td style="text-align: left;">\( \alpha_t x + \sigma_t \varepsilon \)</td>
                     </tr>
                     <tr>
-                      <td>ODE</td>
-                      <td>\( \mathrm{d}X_t =  [f(X_t, t) - \frac{1}{2} g^2(t) \nabla \log p_t(x)] \mathrm{d}t \)</td>
-                      <td>\( dX_t = v(X_t, t) \)</td>
+                      <td style="text-align: left;">ODE</td>
+                      <td style="text-align: left;">\( \mathrm{d}X_t =  [f(X_t, t) - \frac{1}{2} g^2(t) \nabla \log p_t(x)] \mathrm{d}t \)</td>
+                      <td style="text-align: left;">\( dX_t = v(X_t, t) \)</td>
                     </tr>
                     <tr>
-                      <td>SDE</td>
-                      <td>\( dX_t =[f(X_t, t) - g^2(t) \nabla \log p_t(x)] \mathrm{d}t + g(t) \mathrm{d} \bar{W}_t \)</td>
+                      <td style="text-align: left;">SDE</td>
+                      <td style="text-align: left;">\( dX_t =[f(X_t, t) - g^2(t) \nabla \log p_t(x)] \mathrm{d}t + g(t) \mathrm{d} \bar{W}_t \)</td>
                       <td><b>?</b></td>
                     </tr>
                   </table>
                 It has been proved<d-cite key="albergo2023stochastic"></d-cite> that under the same \(\alpha_t\) and  \(\sigma_t\), Diffusion and Flow-based methods share the same time-evolving process:  
                 Flow-Based ODE's corresponding \(p_t(x)\) coincides with that of Diffusion-Based ODE and SDE. <br>
-                In our work, we proceed to demonstrate the mathematical equivalences and performance influences of other components in the above table. We also managed to fill in the question mark by showing that Flow-based methods can also be sampled by an reverse-time SDE despite the lack of a forward SDE.
+                In our work, we proceed to demonstrate the mathematical equivalences and performance influences of other components in the above table. We also managed to fill in the question mark by showing that Flow-Based methods can also be sampled by a reverse-time SDE despite the lack of a forward SDE.
             </p>
             <p>
                 
@@ -400,7 +400,7 @@
                     dX_t = [v(X_t, t) - \frac12 g^2(t)s(X_t, t)]\mathrm{d}t + g(t) \mathrm{d} \bar{W}_t
                 \]
                 where we take advantage of the linear relationship between <i>velocity</i> and <i>score</i> to construct the drift term. We denote \(g(t)\) as the <b>SBDM diffusion coefficient</b>. 
-                Followed from previous sections, we can also construct such SDE for GVP and Linear interpolants given the relationship \(g^2(t) = 2\lambda_t\sigma_t\). The results are resented below 
+                Following previous sections, we can also construct such SDE for GVP and Linear interpolants given the relationship \(g^2(t) = 2\lambda_t\sigma_t\). The results are resented below 
                 <d-figure>
                     <table class="display-table" style="text-align: center;">
                         <tr>
@@ -508,7 +508,7 @@
                 For a CFG scale of \(\zeta = 1.5\), DiT-XL sees an improvement in FID from a 9.6 (non-CFG) down to 2.27 (CFG). We observed similar performance improvement with our largest SiT-XL model under identical computation budget and CFG scale. Sampled with an ODE, the FID-50K score improved from 9.4 to 2.15; with an SDE, the FID improved from 8.6 to 2.06. This shows that SiT benefits from the same training and sampling choices explored previously, and can surpass DiT's performance in each training setting, not only with respect to model size, but also with respect to sampling choices.</p>
                 <br>
             <d-figure>
-                <table class="display-table" style="text-align: center;">
+                <table class="display-table" style="text-align: left;">
                     <tr>
                         <th colspan="6">Class-Conditional ImageNet \(256\times256\)</th>
                     </tr>
