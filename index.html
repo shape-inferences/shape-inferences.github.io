@@ -92,8 +92,8 @@
                     x_t = \alpha_t x_* + \sigma_t \varepsilon
                 $$
                 with t defined on \([0, T]\), \(\alpha_t, \sigma_t\) being time-dependent functions and chosen such that \(x_0 \sim p(x)\), \(x_T \sim \mathcal{N}(0, \mathbf{I})\). 
-                At each \(t\), \(x_t\) has a conditional density \(p_t(x | x_*, \varepsilon) = \mathcal{N}(\alpha_t x_*, \sigma_t^2\mathbf{I})\), 
-                and our goal is to estimate the marginal density \(p_t(x) = \int p_t(x | x_*, \varepsilon) p(x) p(\varepsilon) \mathrm{d}x \mathrm{d}\varepsilon\).
+                At each \(t\), \(x_t\) has a conditional density \(p_t(x | x_*) = \mathcal{N}(\alpha_t x_*, \sigma_t^2\mathbf{I})\), 
+                and our goal is to estimate the marginal density \(p_t(x) = \int p_t(x | x_*) p(x) \mathrm{d}x \).
                 In most cases, the marginal density \(p_t(x)\) is in tractable. 
                 Some previous methods<d-cite key="chen2019neural"></d-cite><d-cite key="kingma2018glow"></d-cite><d-cite key="grathwohl2018ffjord"></d-cite><d-cite key="dinh2015nice"></d-cite> focus on maximizing the likelihood \(\log p_t(x)\), whereas modern approaches take advantage of differential equations with the corresponding marginal density \(p_t(x)\) to directly estmate data samples from \(p(x)\).
             </p>
