@@ -62,7 +62,7 @@ window.addEventListener('scroll', function() {
 // Function to determine which section is in view
 function getActiveSection() {
     var sections = document.querySelectorAll('section'); // Assuming your sections have a 'section' tag
-    var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    var scrollPosition = window.pageYOffset + 10 || document.documentElement.scrollTop;
 
     for (var i = 0; i < sections.length; i++) {
         if (sections[i].offsetTop <= scrollPosition && sections[i].offsetTop + sections[i].offsetHeight > scrollPosition) {

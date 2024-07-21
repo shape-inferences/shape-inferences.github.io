@@ -1,7 +1,7 @@
 /* Base styles */
 .header-container {
-  background-color: #445d74; /* Blue background */
-  color: #d9e8ed;
+  background-color: #595375; /* Blue background */
+  color: #ddd9ed;
   text-align: center; /* Center content on small screens */
   padding: 20px; /* Reduced padding for small screens */
 }
@@ -32,9 +32,9 @@
 }
 
 .button-container a.button {
-  background-color: #b7c3cb;
-  color: #03325c;
-  border: 2px solid #ccdde5; /* Grey border */
+  background-color: #ddd9ed;
+  color: #19035c;
+  border: 2px solid #d1cce5; /* Grey border */
   border-radius: 25px; /* Rounded borders */
   padding: 10px 20px; /* Top and bottom padding, left and right padding */
   margin: 5px; /* Space between the buttons */
@@ -45,7 +45,7 @@
 }
 
 .button-container a.button:hover {
-  background-color: #EAB682; /* Darker yellow background on hover */
+  background-color: #595375; /* Darker yellow background on hover */
   color: #fff; /* White text on hover */
 }
 
@@ -86,6 +86,7 @@
 
   .header-image {
     max-width: calc(50% - 20px); /* Adjust width to include margin */
+    padding: 0 70px 0 70px;
   }
 
   .header-image img {
@@ -119,7 +120,7 @@
 
 .byline-column h3 {
   margin-bottom: 10px; /* Space between the header and the content */
-  color: #333; /* Dark grey color for the text */
+  color: #222; /* Dark grey color for the text */
   font-size: 16px; /* Adjust the font size as needed */
 }
 
@@ -155,7 +156,7 @@ d-article d-contents {
   justify-self: end;
   margin-top: 5em;
   padding-right: 3em;
-  padding-left: 2em;
+  padding-left: 1.9em;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
@@ -219,7 +220,7 @@ d-article d-contents nav > ul > li > a:hover {
 }
 
 .active-nav-item {
-  color: #0d6efd; /* Change as per your preference */
+  color: #6344d7 !important; /* Change as per your preference */
 }
 
 .shaded-figure {
@@ -243,4 +244,23 @@ d-article d-contents nav > ul > li > a:hover {
 
 d-article section{
   margin: 0 !important;
+}
+
+.level2 {
+  margin-left: 15px;
+  color: #777;
+}
+
+.level3 {
+  margin-left: 30px;
+  color: #777;
+}
+
+.fa-angle-down {
+  font-size: 16px !important;
+}
+
+.multicolumn-left {
+  padding-left: 0;
+  width: 65%;
 }

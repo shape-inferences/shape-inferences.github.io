@@ -9,7 +9,7 @@
         <script src="https://rawgit.com/nstrayer/slid3r/master/dist/slid3r.js"></script>
         <script src="cross_fade.js"></script>
         <link rel="stylesheet" href="style.css">
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
         <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
@@ -18,14 +18,15 @@
     <body>
         <div class="header-container">
             <div class="header-content">
-              <h1>SiT: Exploring Flow and Diffusion-based Generative Models with Scalable Interpolant Transformers</h1>
+              <h1>HSI: Evaluating the correspondence between humans and vision models on 3D shape understanding</h1>
+                <h2>A benchmark of human shape inferences</h2>
               <div class="button-container">
-                <a href="https://arxiv.org/pdf/2401.08740.pdf" class="button">Paper</a>
-                <a href="https://github.com/willisma/SiT" class="button">Code</a>
+                <a href="https://openreview.net/pdf?id=tU8Xgybudy" class="button">Paper</a>
+                <a href="https://github.com/tzler/shape-inferences" class="button">Code</a>
               </div>
             </div>
             <div class="header-image">
-                <img src="images/teaser_2.png" alt="Teaser Image" class="teaser-image">
+                <img src="images/preteaser.png" alt="Teaser Image" class="teaser-image">
             </div>
         </div>
     <d-article>
@@ -33,629 +34,209 @@
             <div class="byline-container">
                 <div class="byline-column">
                     <h3>Authors</h3>
-                    <p><a href="https://willisma.github.io/" class="author-link">Willis (Nanye) Ma</a></p>
-                    <p><a href="https://marikgoldstein.github.io/" class="author-link">Mark Goldstein</a></p>
-                    <p><a href="http://malbergo.me/" class="author-link">Michael S. Albergo</a></p>
-                    <p><a href="https://nmboffi.github.io/" class="author-link">Nicholas M. Boffi</a></p>
-                    <p><a href="https://wp.nyu.edu/courantinstituteofmathematicalsciences-eve2/" class="author-link">Eric Vanden-Eijnden</a></p>
-                    <p><a href="https://www.sainingxie.com/" class="author-link">Saining Xie</a></p>
+                    <p><a href="https://tzler.github.io/" class="author-link">Tyler Bonnen<sup>1</sup></a></p>
+                    <p><a href="https://stephanie-fu.github.io/" class="author-link">Stephanie Fu<sup>1</sup></a></p>
+                    <p><a href="https://yutongbai.com/" class="author-link">Yutong Bai<sup>1</sup></a></p>
+                    <p><a href="https://scholar.google.com/citations?user=lNQeAXEAAAAJ&hl=en" class="author-link">Thomas O'Connell<sup>2</sup></a></p>
+                    <p><a href="https://www.yonifriedman.com/" class="author-link">Yoni Friedman<sup>2</sup></a></p>
+                    <p><a href="https://mcgovern.mit.edu/profile/nancy-kanwisher/" class="author-link">Nancy Kanwisher<sup>2</sup></a></p>
+                    <p><a href="https://web.mit.edu/cocosci/josh.html" class="author-link">Joshua B. Tenenbaum<sup>2</sup></a></p>
+                    <p><a href="https://people.eecs.berkeley.edu/~efros/" class="author-link">Alexei A. Efros<sup>1</sup></a></p>
                 </div>
                 <div class="byline-column">
                     <h3>Affiliations</h3>
-                    <p><a href="https://cs.nyu.edu/home/index.html" class="affiliation-link">New York University</a></p>
+                    <p><a href="https://bair.berkeley.edu/" class="affiliation-link"><sup>1</sup>UC Berkeley</a></p>
+                    <p><a href="https://web.mit.edu/" class="affiliation-link"><sup>1</sup>MIT</a></p>
                 </div>
                 <div class="byline-column">
                     <h3>Date</h3>
-                    <p>Jan. 9, 2023</p>
+                    <p>Jul. 20, 2024</p>
                 </div>
             </div>
         </div>
         <d-contents>
             <nav>
                 <h4>Contents</h4>
-                <div><a href="#introduction">Flow and Diffusion</a></div>
-                <div><a href="#framework">Scalable Interpolant Transformers</a></div>
+                <div><a href="#introduction">HSI: The dataset</a></div>
+                <div><a href="#human"><i class="fa fa-angle-down"></i> Human responses</a></div>
+                <div><a href="#human-reliability" class="level2">Subject reliability</a></div>
+                <div><a href="#model"><i class="fa fa-angle-down"></i> Model responses</a></div>
+                <div><a href="#model-scaling" class="level2">Model scaling</a></div>
+                <div><a href="#insights"><i class="fa fa-angle-down"></i> Insights</a></div>
+                <div><a href="#insights-failures" class="level2">Shared human-model failures</a></div>
+                <div><a href="#insights-gap" class="level2">Understanding the gap</a></div>
                 <div><a href="#conclusion">Conclusion</a></div>
+                <div><a href="#cite">Cite</a></div>
             </nav>
         </d-contents>
         
         <p>
-            We present <b>S</b>calable <b>i</b>nterpolant <b>T</b>ransformers (SiT), a family of generative models built on the backbone of Diffusion Transformers (DiT)<d-cite key="peebles2023scalable"></d-cite>. 
-            The interpolant framework, which allows for connecting two distributions in a more flexible way than standard diffusion models, 
-            makes possible a modular study of various design choices impacting generative models built on dynamical transport: 
-            using <b><span style="color: #014421">discrete</span></b> vs. <b><span style="color: #014421">continuous</span></b> time learning, 
-            deciding the <b><span style="color: #FF7F00">objective</span></b> for the model to learn, 
-            choosing the <b><span style="color: #8F00FF">interpolant</span></b> connecting the distributions, 
-            and deploying a <b><span style="color: #008080">deterministic</span></b> or <b><span style="color: #008080">stochastic</span></b> sampler. 
+            We present <b>H</b>uman <b>S</b>hape <b>I</b>nferences, a benchmark to directly evaluate alignment between human observers and vision models on 3D shape inferences. HSI requires zero-shot visual understanding of object shape: given 3-4 images, participants identify which contains a different object from the others, in spite of considerable viewpoint variation.
         </p>
         <p>
-            By carefully introducing the above ingredients, SiT surpasses DiT uniformly across model sizes on the conditional ImageNet 256x256 benchmark using the exact same backbone, number of parameters, and GFLOPs. By exploring various diffusion coefficients, which can be tuned separately from learning, SiT achieves an FID-50K score of <b>2.06</b>.
+            With these data, we define a series of increasingly granular evaluation metrics using choice, reaction time, and eye-tracking measurements. We evaluate models optimized via contrastive (DINOv2) and masked autoencoding (MAE) self-supervision objectives, as well as language-image pretraining (CLIP). While there are underlying similarities between human and model choice behaviors, <b>humans outperform all models by a wide margin, typically succeeding where models fail.</b> Using more granular evaluation metrics from reaction time and gaze data, we identify potential sources for this divergence.
+        </p>
+        <p>
+            We note that our benchmark is a shift from prevailing approaches; instead of a single measure, we evaluate models through a series of increasingly granular metrics.  Coarse-grained human-model comparison enables us to evaluate whether models achieve human-level shape inferences, while more fine-grained metrics (e.g., comparison with human gaze patterns) better details the divergence between model and human abilities.
+        </p>
+        <p>
             <d-figure>
                 <figure>
-                    <img src="images/visuals/sota_2.png" alt="SiT sota">
-                    <figcaption>Selected samples from our largest SiT-XL models trained on ImageNet<d-cite key="russakovsky2015imagenet"></d-cite> at \(512\times512\) and \(256\times256\) resolutions with classifier-free guidance scale of \(4.0\), respectively.</figcaption>
+                    <img src="images/teaser.png" alt="">
+                    <figcaption><b>Figure 1: Human-level 3D shape inference dataset.</b> We develop a benchmark to directly evaluate the correspondence between humans and vision models on 3D visual inferences. We conduct our analyses across multiple levels of granularity---including accuracy, choice behaviors, processing time, and eyetracking data.</figcaption>
                 </figure>
             </d-figure>
-            <!-- <d-figure>
-                <svg width="100%" height="100%" viewBox="0 0 320 245" style="min-width: 160px; margin-bottom: -70px"><g id="image_group_fig1" width="320" height="200"><image width="320" height="200" xlink:href="images/visuals/sota_2.png" id="display_image_fig1" x="0" y="0"></image></g></svg>
-                <figcaption>
-                    Selected samples from our largest SiT-XL models trained on ImageNet<d-cite key="russakovsky2015imagenet"></d-cite> at \(512\times512\) and \(256\times256\) resolutions with classifier-free guidance scale of \(4.0\), respectively.
-                </figcaption>
-            </d-figure> -->
         </p>
         <section id="introduction">
-            <h2>Flow and Diffusion</h2>
+            <h2>HSI: The dataset</h2>
             <p>
-                In recent years a family of flexible generative model 
-                based on transforming pure noise \(\varepsilon \sim \mathcal{N}(0, \mathbf{I})\) into data \(x_* \sim p(x)\) has emerged.
-                This transformation can be described by a simple time-dependent process $$
-                    x_t = \alpha_t x_* + \sigma_t \varepsilon
-                $$
-                with t defined on \([0, T]\), \(\alpha_t, \sigma_t\) being time-dependent functions and chosen such that \(x_0 \sim p(x)\), \(x_T \sim \mathcal{N}(0, \mathbf{I})\). 
-                At each \(t\), \(x_t\) has a conditional density \(p_t(x | x_*) = \mathcal{N}(\alpha_t x_*, \sigma_t^2\mathbf{I})\), 
-                and our goal is to estimate the marginal density \(p_t(x) = \int p_t(x | x_*) p(x) \mathrm{d}x \).
-                In most cases, the marginal density \(p_t(x)\) is in tractable. 
-                Some previous methods<d-cite key="chen2019neural"></d-cite><d-cite key="kingma2018glow"></d-cite><d-cite key="grathwohl2018ffjord"></d-cite><d-cite key="dinh2015nice"></d-cite> focus on maximizing the likelihood \(\log p_t(x)\), whereas modern approaches take advantage of differential equations with the corresponding marginal density \(p_t(x)\) to directly estmate data samples from \(p(x)\).
-            </p>
-            <p> 
-                <b>Diffusion-Based Models.</b>  
-                Diffusion-Based Models<d-cite key="ho2020denoising"></d-cite><d-cite key="kingma2023variational"></d-cite> <d-cite key="nichol2021improved"></d-cite><d-cite key="karras2022elucidating"></d-cite><d-cite key="song2021scorebased"></d-cite> is the most commonly used framework for this transformation.
-                The \(\alpha_t\) and  \(\sigma_t\) are set indrectly by a forward-time stochastic differential equation (SDE) with \(\mathcal{N}(0, \mathbf{I})\) as equilibrium distribution. $$
-                    dX_t = f(X_t, t) \mathrm{d}t + g(t) \mathrm{d} W_t 
-                $$
-                where \(W_t\) is a standard Brownian motion. <br>
-                In practice, the model samples the process by learning the gradient of the likelihood \(\nabla \log p_t(x)\) (score) with a generative model \(s_\theta(x_t, t)\) under the score matching objective $$
-                    \mathcal{L}_s(\theta) = \int \mathbb{E}[\Vert \sigma_t s_\theta(x_t, t) + \varepsilon  \Vert^2] \mathrm{d}t
-                $$
-                Inference is done by solving either a probability flow ODE $$\mathrm{d}X_t =  [f(X_t, t) - \frac{1}{2} g^2(t) \nabla \log p_t(x)] \mathrm{d}t $$
-                or a reverse-time SDE $$
-                    \mathrm{d}X_t = [f(X_t, t) - g^2(t) \nabla \log p_t(x)] \mathrm{d}t + g(t) \mathrm{d} \bar{W}_t
-                $$
-                where \(\bar{W}_t\) is a standard Brownian motion with reversed time. Integrating both equations from \(t = T\) to \(t=0\) with initial condition of a Gaussian noise will push to a data sample approximating \(p(x)\). <br>
-            </p> 
-            <p>
-                <b>Stochastic Interpolant and Flow-Based Models.</b>
-                Stochastic Interpolant and other Flow-Based models<d-cite key="lipman2023flow"></d-cite><d-cite key="albergo2023building"></d-cite><d-cite key="albergo2023stochastic"></d-cite><d-cite key="liu2022flow"></d-cite> are the recent additions to this family, 
-                where the \(\alpha_t\) and  \(\sigma_t\) are restricted on time interval \([0,1]\) with \(\alpha_0 = \sigma_1 = 1\) and \(\alpha_1 = \sigma_0 = 0\), 
-                so that \(x_t\) exactly interpolate between \(x_*\) and \(\varepsilon\). We note that this gives more flexibility in the choice of the interpolating functions, as they are no longer subject to a forward SDE.<br>
-                Furthermore, these models use a simpler probability flow ODE for inference 
-                \[\begin{align*}
-                    \mathrm{d}X_t &= \underbrace{[f(X_t, t) - \frac{1}{2} g^2(t) \nabla \log p_t(x)]}_{\text{directly learn this}} \mathrm{d}t \\
-                    \implies \mathrm{d}X_t &= v(X_t, t) \mathrm{d}t
-                \end{align*}\]
-                where the <em>velocity</em> \(v(X_t, t)\) is estimated by the flow matching objective $$
-                    \mathcal{L}_v(\theta) = \int \mathbb{E}[\Vert v(X_t, t) - \dot \alpha_t x_* - \dot \sigma_t \varepsilon \Vert^2] \mathrm{d}t
-                $$
-                Intuitively, this can be viewed as predicting the velocity of a particle starting moving from some \(\varepsilon\) at time \(t\).
-            </p> 
-            <p>
-                We summarize the components of the above models in the following table:
-                <table class="display-table">
-                    <tr>
-                      <th></th>
-                      <th style="text-align: center;">Diffusion-Based</th>
-                      <th style="text-align: center;">Flow-Based</th>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left;">\( t \)</td>
-                      <td style="text-align: left;">\(\{0, \cdots, T\}\) (DDPM<d-cite key="ho2020denoising"></d-cite>) / \([0,1]\) (SBDM<d-cite key="song2021scorebased"></d-cite>) </td>
-                      <td style="text-align: left;">\([0,1]\)</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">\( \mathcal{L}(\theta) \)</td>
-                        <td style="text-align: left;">\( \mathcal{L}_s \sim \Vert \sigma_t s_\theta(x_t, t) + \varepsilon\Vert^2 \)</td>
-                        <td style="text-align: left;">\( \mathcal{L}_v \sim \Vert v_\theta(x_t, t) - \dot \alpha_t x_* - \dot \sigma_t \varepsilon \Vert^2 \)</td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left;">\( x_t \)</td>
-                      <td style="text-align: left;">\( \alpha_t x + \sigma_t \varepsilon \)</td>
-                      <td style="text-align: left;">\( \alpha_t x + \sigma_t \varepsilon \)</td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left;">ODE</td>
-                      <td style="text-align: left;">\( \mathrm{d}X_t =  [f(X_t, t) - \frac{1}{2} g^2(t) \nabla \log p_t(x)] \mathrm{d}t \)</td>
-                      <td style="text-align: left;">\( dX_t = v(X_t, t) \)</td>
-                    </tr>
-                    <tr>
-                      <td style="text-align: left;">SDE</td>
-                      <td style="text-align: left;">\( dX_t =[f(X_t, t) - g^2(t) \nabla \log p_t(x)] \mathrm{d}t + g(t) \mathrm{d} \bar{W}_t \)</td>
-                      <td><b>?</b></td>
-                    </tr>
-                  </table>
-                It has been proved<d-cite key="albergo2023stochastic"></d-cite> that under the same \(\alpha_t\) and  \(\sigma_t\), Diffusion and Flow-based methods share the same time-evolving process:  
-                Flow-Based ODE's corresponding \(p_t(x)\) coincides with that of Diffusion-Based ODE and SDE. <br>
-                In our work, we proceed to demonstrate the mathematical equivalences and performance influences of other components in the above table. We also managed to fill in the question mark by showing that Flow-Based methods can also be sampled by a reverse-time SDE despite the lack of a forward SDE.
+                Images in HSI include common objects (e.g., chairs, airplanes) as well as abstract shapes (i.e., synthetic objects without semantic attributes), while controlling for shape-orthogonal image properties such as lighting and background. We construct 2019 unique image sets (each containing 3-4 images) and administer these tasks to human participants, collecting 35K trials of behavioral data from over 500 participants.
             </p>
             <p>
-                
-                <!-- <d-figure>
-                    <figure class="l-body">
-                        <div id='figure1_div'></div>
-                        <script src="figure1.js"></script>
-                        <figcaption>
-                            Examples on which GPT-4V fails while SEAL with the visual search mechanism succeeds. Even though GPT-4V has a much more powerful LLM (GPT-4) than ours (Vicuna-7B), it still occasionally struggles in scenarios that demand extensive visual processing. These situations require precise visual grounding in high-resolution images, a task where the visual search mechanism becomes essential. Click the small images at the bottom to choose different examples.
-                        </figcaption>
+                <d-figure>
+                    <figure>
+                        <img src="images/example-stimuli.png" alt="">
+                        <figcaption><b>Figure 2: Example stimuli from the four datasets in this benchmark.</b> Each trial is composed of a triplet of images containing two objects: one from two different viewpoints (A and A'), and another object (B). Depending on the experiment, participants either infer the matching or non-matching object (pairing A-A', or identifying B). B in each trial is marked with a \(\textcolor{red}{*}\) for illustrative purposes.</figcaption>
                     </figure>
-                </d-figure> -->
+                </d-figure>
+            </p>
+            <p>
+                HSI images are consolidated from four unique settings:
+                <ul>
+                    <li>
+                        <b>BARENSE. </b> Data from <d-cite key="barense2007human"></d-cite> include common, real-world objects (e.g., color photographs of chairs, tables) and abstract shapes (i.e., synthetic objects without semantic attributes) on a white background. These stimuli are separated into "high similarity" and "low similarity" conditions; "high similarity" trials are thought to rely on understanding the "compositional" 3D structure of objects while "low similarity" trials are thought to rely on simpler visual features.
+                    </li>
+                    <li>
+                        <b>MAJAJ. </b> Images from <d-cite key="majaj2015simple"></d-cite> belong to four categories of objects: animals (e.g., gorillas, lions), chairs, planes, and faces. Images are in black and white, all from multiple viewpoints, and are superimposed onto randomized backgrounds (e.g., a chair floating in the sky above a mountain range. These stimuli are designed to make object segmentation and representation challenging, given the object-irrelevant distractors.
+                    </li>
+                    <li>
+                        <b>SHAPENET. </b> ShapeNet assets from multiple classes (e.g., cabinet, car, lamp) are rendered from random viewpoints with their surface properties removed<d-cite key="oconnell2023approaching"></d-cite>.
+                    </li>
+                    <li>
+                        <b>SHAPEGEN. </b> We also procedurally generate new objects by iteratively extruding random mesh faces from a base shape and applying a Catmull-Clark modifier to produce smooth edges on the final objects. This pipeline can generate infinitely many unique shapes, while simultaneously controlling for the similarity of any two objects.
+                    </li>
+                </ul>
+                 We license all assets under CC BY-NC-SA 4.0.
             </p>
         </section>
-        <section id="framework">
-            <h2>Scalable Interpolant Transformers</h2>
-            <p>
-                From the above table, we summarize the design space into four components. 
-                <ul>
-                    <li><b><span style="color: #014421">Timespace</span></b>: discrete or continuous time interval; </li>
-                    <li><b><span style="color: #FF7F00">Model Prediction</span></b>: the objectives of \(\mathcal{L}_s\) or \(\mathcal{L}_v\);</li>
-                    <li><b><span style="color: #8F00FF">Interpolant</span></b>: the choices of \(\alpha_t\) and \(\sigma_t\);</li>
-                    <li><b><span style="color: #008080">Sampler</span></b>: ODE or SDE.</li>
-                </ul>
-                Systematically varying these components in the design space, we construct our SiT model, which consistently outperforms the DiT model in generating \(256 \times 256\) ImageNet images.
-                <d-figure >
-                    <table class="display-table" style="margin-top:25px;">
-                        <tr>
-                            <th>Model</th>
-                            <th>Params(M)</th>
-                            <th>Training Steps</th>
-                            <th>FID \(\downarrow\)</th>
-                        </tr>
-                        <tr>
-                            <td  style="text-align: left;">DiT-S</td>
-                            <td>33</td>
-                            <td>400K</td>
-                            <td>68.4</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left;">SiT-S</td>
-                            <td>33</td>
-                            <td>400K</td>
-                            <td><strong>57.6</strong></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left;">DiT-B</td>
-                            <td>130</td>
-                            <td>400K</td>
-                            <td>43.5</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left;">SiT-B</td>
-                            <td>130</td>
-                            <td>400K</td>
-                            <td><strong>33.5</strong></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left;">DiT-L</td>
-                            <td>458</td>
-                            <td>400K</td>
-                            <td>19.5</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left;">SiT-L</td>
-                            <td>458</td>
-                            <td>400K</td>
-                            <td><strong>17.2</strong></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left;">DiT-XL</td>
-                            <td>675</td>
-                            <td>400K</td>
-                            <td>9.6</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left;">SiT-XL</td>
-                            <td>675</td>
-                            <td>400K</td>
-                            <td><strong>8.6</strong></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left;">DiT-XL<sub>(cfg=1.5)</sub></td>
-                            <td>675</td>
-                            <td>7M</td>
-                            <td>2.27</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left;">SiT-XL<sub>(cfg=1.5)</sub></td>
-                            <td>675</td>
-                            <td>7M</td>
-                            <td><strong>2.06</strong></td>
-                        </tr>
-                    </table>
-                    <figcaption style="text-align: center;">Across all model sizes, SiT performs better than DiT. <i>What's the source of the performance gain?</i></figcaption>
-                </d-figure>
-            </p>
-            <p>
-                To investigate such performance improvement, we gradually transition from a DiT model, a typical denoising diffusion model (<span style="color: #014421">discrete</span>, <span style="color: #FF7F00">denoising</span>, <span style="color: #8F00FF">variance preserving</span>, and <span style="color: #008080">SDE</span>) to our SiT model via a series of orthogonal steps in the design space. As we progress, we carefully evaluate how each move away from the diffusion model impacts the performance in the following sections. 
-            </p>
-            <p>
-                To conduct such study, we use the same backbone architecture of DiT-B and training hyperparameters for all models. We also maintain number of parameters, GFLOPs, and training schedule (400K steps) to be identical for all models. 
-                All the numbers presented in tables are FID-50K score evaluated with respect to ImageNet256 training set, and produced by a 250 steps Heun ODE solver without otherwise specified. For solving the SDE, we used an Euler-Maruyama integrator. 
-            </p>
-            <h3 id="Timespace"><span style="color: #014421">Timespace</span></h3>
-            <p>
-                The first move away is well-studied: we switch from a discrete-time denoising model to a continuous-time score model. Marginal performance improvement is observed.
-                <d-figure>
-                    <table class="display-table" style="text-align: center;">
-                        <tr>
-                            <th>    </th>
-                            <th><i>Objective</i></th>
-                            <th>FID</th>
-                        </tr>
-                        <tr>
-                            <td>DDPM</td>
-                            <td>\( \mathcal{L}_s^\dagger \)</td>
-                            <td>44.2</td>
-                        </tr>
-                        <tr>
-                            <td>SBDM</td>
-                            <td>\( \mathcal{L}_s \)</td>
-                            <td><strong>43.6</strong></td>
-                        </tr>
-                    </table>
-                    <figcaption style="text-align: center;"><strong>DDPM vs. SBDM.</strong> \( \dagger \) <i>DDPM uses the discretized objective.</i></figcaption>
-                </d-figure>
-            </p>
-            <h3 id="ModelPrediction"><span style="color: #FF7F00">Model Prediction</span></h3>
-            <p>
-                We claim that <i>velocity</i> model is related to <i>score</i> model by a time-dependent weighting function. To be specific, we discovere that \[
-                v(x_t, t) = \frac{\dot \alpha_t}{\alpha_t} x_t - \lambda_t\sigma_t s(x_t, t)
-                \]
-                with \( \lambda_t = \dot \sigma_t - \frac{\dot \alpha_t \sigma_t}{\alpha_t} \). Plug this linear relation into \(\mathcal{L}_v\), we obtain \[
-                \begin{align*}
-                    \mathcal{L}_{v}(\theta) 
-                    &= \int_0^T \lambda_t^2 \mathbb{E}[\Vert  \sigma_t s_\theta(x_t, t) + \varepsilon \Vert^2] \mathrm{d} t \\
-                    &= \mathcal{L}_{s_\lambda}(\theta)
-                \end{align*}
-                \]
-                this aligns with the observation made in <d-cite key="kingma2023understanding"></d-cite>, that different model predictions of diffusion models corresponding to a vanilla denosiing objective weighted by different time-dependent functions.
-                We trained all three models and present the results below. 
-                <d-figure>
-                    <table class="display-table" style="text-align: center;">
-                        <tr>
-                            <th>Interpolant</th>
-                            <th><i>Objective</i></th>
-                            <th>FID</th>
-                        </tr>
-                        <tr>
-                            <td>SBDM-VP</td>
-                            <td>\( \mathcal{L}_s\)</td>
-                            <td>43.6</td>
-                        </tr>
-                        <tr>
-                            <td>SBDM-VP</td>
-                            <td>\( \mathcal{L}_{s_\lambda} \)</td>
-                            <td><strong>39.1</strong></td>
-                        </tr>
-                        <tr>
-                            <td>SBDM-VP</td>
-                            <td>\( \mathcal{L}_v \)</td>
-                            <td>39.8</td>
-                        </tr>
-                    </table>
-                    <figcaption style="text-align: center;"><strong>Effect of different model predictions.</strong></figcaption>
-                </d-figure>
-                <br>
-                As \(t \to 0\), \(\dot \sigma_t \to -\infty\) under the variance preserving setting, making \(\lambda_t^2\) blow up to infinity as well. In practice, we follow the setting of SBDM and clip both training and sampling to the interval \([\varepsilon, 1]\) to avoid numerical stability. 
-                As a result, the large \(\lambda_\varepsilon\) is able to compensate for the vanishing gradient of \(\mathcal{L}_s\), but in turn makes \(\mathcal{L}_v\) harder to optimize.
-                <d-figure>
-                    <figure>
-                        <img src="images/time_weight.png" style="display: block; margin-left: auto; margin-right: auto; width: 80%;" alt="time-dependent weighting">
-                        <figcaption style="text-align: center;">Plot of \( \lambda_t^2 \) clipped on \([10^{-5}, 1]\).</figcaption>
-                    </figure>
-                </d-figure>
-            </p>
-            <h3 id="Interpolant"><span style="color: #8F00FF">Interpolant</span></h3>
-            <p>
-                We mainly experiment with three choices of interpolants:
-                <ul>
-                    <li><b>VP</b>: \(\alpha_t = e^{-\tfrac12 \int_0^t\beta_s \mathrm{d} s} \), \( \sigma_t = \sqrt{1- e^{- \int_0^t\beta_s \mathrm{d} s}}\)</li>
-                    <li><b>GVP</b>: \(\alpha_t = \cos(\frac12 \pi t) \), \( \sigma_t = \sin(\frac12 \pi t)\)</li>
-                    <li><b>Linear</b>: \(\alpha_t = 1 - t\), \(\sigma_t = t\)</li>
-                </ul>
-                Below are some examples demonstrating the effects of the above interoplants on simple 1D distributions. On an aligned time interval starting from a standard Gaussian distribution, we note that VP interpolant changes most drastically in both cases while GVP and Linear interpolants are more smooth. Intuitively, such abrupt change in the VP interpolant increases the Lipschitz constant of the velocity field, making its learning more difficult<d-cite key="albergo2023stochastic"></d-cite>. 
-                <d-figure>
-                    <figure>
-                        <div style="display: flex; justify-content: center;">
-                            <img src="images/intpl.gif" style="display: block; margin-left: auto; margin-right: auto; width: 50%;" alt="density interpolation">
-                            <img src="images/intpl_2.gif" style="display: block; margin-left: auto; margin-right: auto; width: 50%;" alt="density interpolation">
-                        </div>
-                        <figcaption >Density Transformation using the above three interpolants.
-                             <b>Left</b>: from a standard Gaussian to Bernoulli distribution defined at \(\pm 1\).
-                             <b>Right</b>: from a standard Gaussian to a Gaussian mixture with two modes at \(-1\) and \(2\). </figcaption>
-                    </figure>
-                </d-figure>
-                Moving from toy examples to image generation tasks, we again observe large performance differences across different interpolants. We present the results below. <br>
-                <br>
-                <d-figure>
-                    <table class="display-table" style="text-align: center;">
-                        <tr>
-                            <th>Interpolant</th>
-                            <th><i>Objective</i></th>
-                            <th>FID</th>
-                        </tr>
-                        <tr>
-                            <td>SBDM-VP</td>
-                            <td>\( \mathcal{L}_v\)</td>
-                            <td>39.8</td>
-                        </tr>
-                        <tr>
-                            <td>GVP</td>
-                            <td>\( \mathcal{L}_v \)</td>
-                            <td><strong>34.6</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Linear</td>
-                            <td>\( \mathcal{L}_v \)</td>
-                            <td>34.8</td>
-                        </tr>
-                    </table>
-                    <figcaption style="text-align: center;"><strong>Effect of interpolants.</strong></figcaption>
-                </d-figure>
-                <br>
-                One possible explanation for this observation is given in the following figure, where we see that the path length (transport cost) is reduced when changing from SBDM-VP to GVP or Linear. Numerically, we also note that the singularity issue of \(\dot \sigma_t\) at \(t = 0\) does not appear with the GVP and Linear interpolants, making the model easier to learn near the data distribution.
-                <br>
-                <d-figure>
-                    <figure>
-                        <img src="images/length_time.png" style="display: block; margin-left: auto; margin-right: auto; width: 80%;" alt="path length">
-                        <figcaption style="text-align: center;"><b>Path Length.</b> The path length \(\mathcal{C}(v) = \int \mathbb{E}[|v(x_t, t)^2|] \mathrm{d}t\) arising from the velocity field at different training steps for the various interpolants; each curve is approximated by 10000 datapoints.
-                            </figcaption>
-                    </figure>
-                </d-figure>
-                
-            </p>
-            <h3 id="Sampler"><span style="color: #008080">Sampler</span></h3>
-            <p>We introduce more flexibility in sampling the <i>velocity</i> model in this section. Firstly, under SBDM setting, the reverse-time SDE for <i>velocity</i> can be constructed in the following way: \[
-                    dX_t = [v(X_t, t) - \frac12 g^2(t)s(X_t, t)]\mathrm{d}t + g(t) \mathrm{d} \bar{W}_t
-                \]
-                where we take advantage of the linear relationship between <i>velocity</i> and <i>score</i> to construct the drift term. We denote \(g(t)\) as the <b>SBDM diffusion coefficient</b>. 
-                Following previous sections, we can also construct such SDE for GVP and Linear interpolants given the relationship \(g^2(t) = 2\lambda_t\sigma_t\). The results are resented below 
-                <d-figure>
-                    <table class="display-table" style="text-align: center;">
-                        <tr>
-                            <th>Interpolant</th>
-                            <th><i>Objective</i></th>
-                            <th>ODE</th>
-                            <th>SDE</th>
-                        </tr>
-                        <tr>
-                            <td>SBDM-VP</td>
-                            <td>\( \mathcal{L}_v\)</td>
-                            <td>39.8</td>
-                            <td>37.8</td>
-                        </tr>
-                        <tr>
-                            <td>GVP</td>
-                            <td>\( \mathcal{L}_v \)</td>
-                            <td>34.6</td>
-                            <td><strong>32.9</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Linear</td>
-                            <td>\( \mathcal{L}_v \)</td>
-                            <td>34.8</td>
-                            <td>33.6</td>
-                        </tr>
-                    </table>
-                    <figcaption style="text-align: center;"><strong>ODE vs. SDE, SBDM diffusion</strong></figcaption>
-                </d-figure>
-            </p>
-            <p>
-                We further proposed that the diffusion coefficient \(g(t)\) can be tuned separately from the learning process. In fact, any non-negative function \(w(t)\) (not necessarily monotone) is eligible to be used as diffusion coefficient, and the reverse-time SDE can thus be generalized to \[
-                    dX_t = [v(X_t, t) - \frac12 w(t)s(X_t, t)]\mathrm{d}t + \sqrt{w(t)} \mathrm{d} \bar{W}_t
-                \]
-                Apart from SBDM coefficient, we also experiment with the choices of \(w(t) = \sigma_t\) (<i>to eliminate the singularity of score near data distribution</i>) and \(w(t) = \sin^2(\pi t)\), as well as their effects on either <i>velocity</i> or <i>score</i> models. 
-                <d-figure>
-                    <table class="display-table" style="text-align: center;">
-                        <tr>
-                            <th>Interpolant</th>
-                            <th><i>Objective</i></th>
-                            <th>\( w(t) = g(t)\) </th>
-                            <th>\( w(t) = \sigma_t \) </th>
-                            <th>\( w(t) = \sin^2(\pi t)\) </th>
-                        </tr>
-                        <tr>
-                            <td>SBDM-VP</td>
-                            <td>\( \mathcal{L}_v\)</td>
-                            <td>37.8</td>
-                            <td>38.7</td>
-                            <td>39.2</td>
-                        </tr>
-                        <tr>
-                            <td>    </td>
-                            <td>\( \mathcal{L}_{s_\lambda}\)</td>
-                            <td>35.7</td>
-                            <td>37.1</td>
-                            <td>37.7</td>
-                        </tr>
-                        <tr>
-                            <td>GVP</td>
-                            <td>\( \mathcal{L}_v \)</td>
-                            <td><strong>32.9</strong></td>
-                            <td>33.4</td>
-                            <td>33.6</td>
-                        </tr>
-                        <tr>
-                            <td>    </td>
-                            <td>\( \mathcal{L}_s \)</td>
-                            <td>38.0</td>
-                            <td>33.5</td>
-                            <td>33.2</td>
-                        </tr>
-                        <tr>
-                            <td>Linear</td>
-                            <td>\( \mathcal{L}_v \)</td>
-                            <td>33.6</td>
-                            <td>33.5</td>
-                            <td>33.3</td>
-                        </tr>
-                        <tr>
-                            <td>    </td>
-                            <td>\( \mathcal{L}_s \)</td>
-                            <td>41.0</td>
-                            <td>35.3</td>
-                            <td>34.4</td>
-                        </tr>
-                    </table>
-                    <figcaption style="text-align: center;"><strong>Evaluation of SDE with different diffusion coefficients</strong>. To make the SBDM-VP competitive we instead use the weighted objective.</figcaption>
-                </d-figure>
-                <br>
-                We note that the optimal choice of diffusion coefficient depends on the interpolant and the objective, and in our experiments, also largely depends on model sizes. Empirically, we observe the best choice for our SiT-XL is a <span style="color: #014421">continuous-time</span> <span style="color: #FF7F00">velocity</span> model with <span style="color: #8F00FF">Linear</span> interpolant and sampled using <span style="color: #008080">SDE</span> with \(w(t) = \sigma_t\) coefficient. 
-            </p>
-            <p>
-                Lastly, we note that the performance of ODE and SDE integrators may differ under different computation budget. As shown below, the ODE converges faster with fewer number of functions evaluations, while the SDE is capable of reaching a much lower final FID score when given a larger computational budget.
-                <d-figure>
-                    <figure>
-                        <img src="images/nfe_sampler.png" style="display: block; margin-left: auto; margin-right: auto; width: 80%;" alt="nfe sampler">
-                        <figcaption style="text-align: center;"><strong>Comparison of ODE and SDE w/ choices of diffusion coefficients.</strong> Each point is evaluated with 10K samples.</figcaption>
-                    </figure>
-                </d-figure>
-            </p>
-            <h3>Classifier-free Guidance</h3>
-            <p>In this section, we give a concise justification for adopting it on the velocity model, and then empirically show that the drastic gains in performance for DiT case carry across to SiT.</p>
-            <p>Guidance for a velocity field means that: (i) that the velocity model \(v_\theta(x_t, t, y)\) takes class labels \(y\) during training, where \(y\) is occasionally masked with a null token \(\emptyset\); and (ii) during sampling the velocity used is \(v_\theta^\zeta(x_t, t, y) = \zeta v_\theta(x_t, t, y) + (1 - \zeta) v_\theta(x_t, t, \emptyset)\) for a fixed \(\zeta > 0\). Given this observation, one can leverage the usual argument for classifier-free guidance on score-based models.
-                For a CFG scale of \(\zeta = 1.5\), DiT-XL sees an improvement in FID from a 9.6 (non-CFG) down to 2.27 (CFG). We observed similar performance improvement with our largest SiT-XL model under identical computation budget and CFG scale. Sampled with an ODE, the FID-50K score improved from 9.4 to 2.15; with an SDE, the FID improved from 8.6 to 2.06. This shows that SiT benefits from the same training and sampling choices explored previously, and can surpass DiT's performance in each training setting, not only with respect to model size, but also with respect to sampling choices.</p>
-                <br>
+        <section id="human">
+            <h2>Human responses</h2>
+        </section>
+        <p>
             <d-figure>
-                <table class="display-table" style="text-align: left;">
-                    <tr>
-                        <th colspan="6">Class-Conditional ImageNet \(256\times256\)</th>
-                    </tr>
-                    <tr>
-                        <th>Model</th>
-                        <th>FID \(\downarrow\)</th>
-                        <th>sFID \(\downarrow\)</th>
-                        <th>IS \(\uparrow\)</th>
-                        <th>Precision \(\uparrow\)</th>
-                        <th>Recall \(\uparrow\)</th>
-                    </tr>
-                    <tr>
-                        <td>BigGAN-deep<d-cite key="brock2019large"></d-cite></td>
-                        <td>6.95</td>
-                        <td>7.36</td>
-                        <td>171.4</td>
-                        <td><strong>0.87</strong></td>
-                        <td>0.28</td>
-                    </tr>
-                    <tr>
-                        <td>StyleGAN-XL<d-cite key="karras2019stylebased"></d-cite></td>
-                        <td>2.30</td>
-                        <td><strong>4.02</strong></td>
-                        <td>265.12</td>
-                        <td>0.78</td>
-                        <td>0.53</td>
-                    </tr>
-                    <tr>
-                        <td>Mask-GIT<d-cite key="chang2022maskgit"></d-cite></td>
-                        <td>6.18</td>
-                        <td>-</td>
-                        <td>182.1</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>ADM<d-cite key="dhariwal2021diffusion"></d-cite></td>
-                        <td>10.94</td>
-                        <td>6.02</td>
-                        <td>100.98</td>
-                        <td>0.69</td>
-                        <td>0.63</td>
-                    </tr>
-                    <tr>
-                        <td>ADM-G, ADM-U</td>
-                        <td>3.94</td>
-                        <td>6.14</td>
-                        <td>215.84</td>
-                        <td>0.83</td>
-                        <td>0.53</td>
-                    </tr>
-                    <tr>
-                        <td>CDM<d-cite key="ho2021cascaded"></d-cite></td>
-                        <td>4.88</td>
-                        <td>-</td>
-                        <td>158.71</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>RIN<d-cite key="jabri2023scalable"></d-cite></td>
-                        <td>3.42</td>
-                        <td>-</td>
-                        <td>182.0</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>Simple Diffusion(U-Net)<d-cite key="hoogeboom2023simple"></d-cite></td>
-                        <td>3.76</td>
-                        <td>-</td>
-                        <td>171.6</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>Simple Diffusion(U-ViT, L)</td>
-                        <td>2.77</td>
-                        <td>-</td>
-                        <td>211.8</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>VDM++<d-cite key="kingma2023understanding"></d-cite></td>
-                        <td>2.12</td>
-                        <td>-</td>
-                        <td>267.7</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>DiT-XL(cfg=1.5)</td>
-                        <td>2.27</td>
-                        <td>4.60</td>
-                        <td>278.24</td>
-                        <td>0.83</td>
-                        <td>0.57</td>
-                    </tr>
-                    <tr>
-                        <td><strong>SiT-XL(cfg=1.5, ODE)</strong></td>
-                        <td>2.15</td>
-                        <td>4.60</td>
-                        <td>258.09</td>
-                        <td>0.81</td>
-                        <td>0.60</td>
-                    </tr>
-                    <tr>
-                        <td><strong>SiT-XL(cfg=1.5, SDE:\(\sigma_t\))</strong></td>
-                        <td><strong>2.06</strong></td>
-                        <td>4.50</td>
-                        <td>270.27</td>
-                        <td>0.82</td>
-                        <td>0.59</td>
-                    </tr>
-                </table>
-                <figcaption><strong>Benchmarking class-conditional image generation on ImageNet 256x256.</strong> SiT-XL surpasses DiT-XL in FID when using either of the samplers, ODE or SDE-based.</figcaption>
+                <figure>
+                    <img src="images/human_histograms_across_datasets.png" alt="">
+                    <figcaption><b>Figure 3: Distribution of human accuracy across trials in each dataset. </b>While humans are reliably accurate across trials, there is a long-tailed distribution of performance. This is by design, as it provides more challenging behavioral targets to model.</figcaption>
+                </figure>
             </d-figure>
-            
+        </p>
+        <section id="human-reliability">
+            <h3>Subject reliability</h3>
         </section>
-        
-        <section id="conclusion">
-            <h2>Conclusion</h2>
+        <p>
+            <d-figure>
+                <figure>
+                    <img src="images/human_histogram_reliability.png" alt="">
+                    <figcaption><b>Figure 4: Distribution of reliability scores for human performance on this benchmark.</b> As evidenced by the high split-half reliability (contrasted with the shuffled, empirical null), the human data included in this benchmark represent consistent, reliable properties of human 3D shape inference.</figcaption>
+                </figure>
+            </d-figure>
+        </p>
+
+        <section id="model">
+            <h2>Model responses</h2>
+        </section>
+        <p>
+            <d-figure>
+                <figure>
+                    <img src="images/human_and_model_boxplots_across_conditions.png" alt="">
+                    <figcaption><b>Figure 5: Mean difference between humans and multiple vision models across conditions.</b> For each condition in this dataset, we compare human performance (left, in color) to DINOv2s, CLIPs, and MAEs (greys, labels are inset) across multiple scales. Here we visualize a subset of conditions which reveal the range of human performance, as well as the disparities with model performance.</figcaption>
+                </figure>
+            </d-figure>
+        </p>
+        <section id="model-scaling">
+            <h3>Model scaling</h3>
+        </section>
+        <p>
+            <table class="display-table multicolumn">
+                <tr>
+                    <td style="text-align: left;" class="multicolumn-left">
+                        <b>Scaling up model size improves performance, but not for all self-supervision objectives.</b>
+                        Across model scales, when comparing DINOv2 (average accuracy of 0.43%) to CLIP (0.19%) or MAEs (-0.03%), we find that DINOv2 has an unmatched advantage . Remarkably, MAE's performance hovers around chance for all model sizes, suggesting that while masked autoencoders might learn visual representations useful for other tasks, they do not seem suitable for human-like 3D visual understanding. Moreover, a thirteen-fold increase in the number of model parameters from DINOv2-base to DINOv2-giant only leads to an increase from 32% to 44%. We also note that humans outperform models on this benchmark by a wide margin; the best-performing model (DINOv2-giant) achieves 44% accuracy, nearly half of human-level performance. These data demonstrate that, insofar as 3D visual representations are concerned, not all self-supervision objectives benefit from increased model scale.
+                    </td>
+                    <td style="text-align: left;" class="multicolumn-right">
+                        <d-figure>
+                            <figure>
+                                <img src="images/nparams_flops_performance.png" alt="">
+                                <figcaption><b>Figure 6: Performance on human shape inference benchmark in terms of model size/FLOPS.</b> Performance on 3D visual inferences improves with increased scale for some model classes (e.g., DINOv2) and not others (MAE). We use the best-performing model (DINOv2-giant) for all subsequent human-model evaluations. </figcaption>
+                            </figure>
+                        </d-figure>
+                    </td>
+                </tr>
+            </table>
+        </p>
+
+        <section id="insights">
+            <h2>Insights</h2>
+        </section>
+        <section id="insights-failures">
+            <h3>Shared human-model failures</h3>
+        </section>
+        <p>
+            <b>Humans outperform models by a wide margin, yet their behaviors are correlated. </b>
+            The gap between human and model performance varies considerably across datasets (average difference (\(38\% \pm 30\%\) STD). We find that, even in the cases with large performance gaps between the two, their behaviors are nonetheless correlated. We observe this human-model correlation across datasets \((r=.42)\), conditions \((r=.58, F(1, 23) = 3.40, P = 0.002 \)), and trials \((r=.35, F(1, 2017) = 16.86, P = 9 \) x \( 10 ^{-60} \)). When comparing to the reliability ceiling estimated for human behaviors across these different resolutions, DINOv2 can predict about 45%, 0.61%, and 0.37% of the explainable variance across datasets, conditions, and trials, respectively. We visualize this relation in Fig. 7 (bottom), binning across trials. Taken together, these data suggest that task difficulty is shared across humans and models, despite considerable differences in accuracy.
+        </p>
+        <p>
+            <d-figure>
+                <figure>
+                    <img src="images/human_and_model_accuracy_binned_scatterplot_perhumanaccuracy.png" alt="">
+                    <img src="images/human_and_model_reaction_time_scatterplot_samescale.png" alt="">
+                    <figcaption><b>Figure 7: Human-model accuracy is correlated; humans spend more time on difficult trials.</b> Humans outperform all vision models evaluated on this benchmark. Nonetheless, there is a correspondence between human and model performance. We visualize this relationship by binning across trials and plotting the performance of DINOv2-giant along the x-axis and human performance along the y-axis, for each dataset in this benchmark (top).</figcaption>
+                </figure>
+            </d-figure>
+        </p>
+        <section id="insights-gap">
+            <h3>Understanding the gap</h3>
             <p>
-                In this work, we have presented Scalable Interpolant Transformers, a simple and powerful framework for image generation tasks. Within the framework, we explored the tradeoffs between a number of key design choices: the choice of a <b><span style="color: #014421">continuous</span></b> or <b><span style="color: #014421">discrete</span></b>-time model, the choice of <b><span style="color: #8F00FF">interpolant</span></b>, the choice of <b><span style="color: #FF7F00">model predcition</span></b>, and the choice of <b><span style="color: #008080">samplers</span></b> . We highlighted the advantages and disadvantages of each choice and demonstrated how careful decisions can lead to significant performance improvements. Many concurrent works<d-cite key="gupta2023photorealistic"></d-cite><d-cite key="liu2023zero1to3"></d-cite><d-cite key="meng2022sdedit"></d-cite> explore similar approaches in a wide variety of downstream tasks, and we leave the application of SiT to these tasks for future works.
+                <b>Human-model divergence may be explained by increased processing time and attention. </b>
+                Even as human and model performance is correlated, there is a persistent gap between the two. That is, while both humans and model appear to be affected by some underlying factor of visual difficulty, humans are more robust to these perceptual challenges. <em>What accounts for this improved performance as compared to models?</em>
+            </p>
+            <p>
+                Here we turn to additional measures of human behavior: reaction time and gaze (i.e., attention) dynamics. These behavioral intermediates provide clues as to the algorithmic basis of human visual abilities, and so may indicate modeling approaches that may prove useful for future work. As is already evident in the initial distributions of human behavior, there is a striking relationship between human accuracy and reaction time; as accuracy decreases, so too does reaction time (Fig. 8). We find that the trials for which model performance is degraded are the same trials where humans allocate more time (i.e., a significant correlation between human reaction time and model performance, \(r=-0.29, F(1, 2017) = -13.72, P = 5 \) x \( 10 ^{-41}\)). Given that human performance on these trials is significantly greater than model performance, it is possible that humans allocate more processing time for those trials that are more challenging.
+            </p>
+            <p>
+                <d-figure>
+                    <figure>
+                        <img src="images/human_scatterplot_across_datasets.png" alt="">
+                        <figcaption><b>Figure 8: Accuracy and reaction time distributions for human participants across datasets..</b> Across datasets we observe a clear relationship between accuracy and processing time; as trials become more difficult, participants allocate more attention/time. Critically, the distribution of human behavior ranges from chance to ceiling, indicating that we have a suitable estimate of the full range of human visual abilities. This and all subsequent error bars are SEM computed over trials.</figcaption>
+                    </figure>
+                </d-figure>
+            </p>
+            <p>
+                If this were true, we might expect that this processing time to be evident in some way in their attention patterns. Are vision models attending to the same feature that humans are, during these extending viewing periods? We extract attentional measures from intermediate model layers, across all models layers, and we find that DINOv2 features do not predict human visual attention any better than would be expected from chance (human-human reliability scores visualized in Fig. 9, left, alongside model-human attention scores; random subset of attention maps visualized in Fig. 9 right). The reliable patterns in human attention are not evident in these models.
+            </p>
+            <p>
+                <d-figure>
+                    <figure>
+                        <img src="images/gaze_hists.png" alt="">
+                        <figcaption><b>Figure 9: Human gaze patterns are reliable but not predicted by model self-attention.</b> While many human behavioral measures are predicted by model performance, self-attention does not predict human attention, suggesting that encoding strategies for humans and machines are quite different. </figcaption>
+                    </figure>
+                </d-figure>
             </p>
         </section>
-        
+        <section id="conclusion">
+            <h3>Conclusion</h3>
+            <p>
+                We provide a benchmark to evaluate the alignment between human participants and vision models on 3D visual inferences, including multi-level metrics to compare models and human observers. Humans outperform all vision models by a wide margin, and there as a clear relationship between their choice behaviors (i.e., their accuracies are correlated). This correspondence is profoundly asymmetric: when human accuracy decreases, model performance often falls to chance levels, while human accuracy is relatively robust on those trials where model performance degrades. These data suggest that humans and models are challenged by the same trials, but human visual inferences are more robust. This trend is evident when comparing models to intermediate behavioral measures relating to processing (reaction time) and attention (gaze patterns). This benchmark identifies unambiguous failure modes in contemporary vision models, while providing clues as to the algorithmic basis of human visual abilities.
+            </p>
+        </section>
         </d-article>
         <d-appendix>
             <h3>BibTeX</h3>
-            <p class="bibtex">
-                @article{ma2024sit,<br>
-                &nbsp;&nbsp;title={SiT: Exploring Flow and Diffusion-based Generative Models with Scalable Interpolant Transformers},<br>
-                &nbsp;&nbsp;author={Nanye Ma and Mark Goldstein and Michael S. Albergo and Nicholas M. Boffi and Eric Vanden-Eijnden and Saining Xie},<br>
-                &nbsp;&nbsp;year={2024},<br>
-                &nbsp;&nbsp;eprint={2401.08740},<br>
-                &nbsp;&nbsp;archivePrefix={arXiv},<br>
-                &nbsp;&nbsp;primaryClass={cs.CV}<br>
-                }
-            </p>
+            <section id="cite">
+                <p class="bibtex">
+                    @article{TODO bibtex here}
+                </p>
+            </section>
 
             <d-footnote-list></d-footnote-list>
             <d-citation-list></d-citation-list>
