@@ -1,258 +1,277 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="template.v2.js"></script>
-        <script src="https://d3js.org/d3.v5.min.js"></script>
-        <script src="https://d3js.org/d3-collection.v1.min.js"></script>
-        <script src="https://rawgit.com/nstrayer/slid3r/master/dist/slid3r.js"></script>
-        <script src="cross_fade.js"></script>
-        <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="template.v2.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3-collection.v1.min.js"></script>
+    <script src="https://rawgit.com/nstrayer/slid3r/master/dist/slid3r.js"></script>
+    <script src="cross_fade.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dataset_viewer.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
             onload="renderMathInElement(document.body);"></script>
-    </head>
-    <body>
-        <div class="header-container">
-            <div class="header-content">
-              <h1>HSI: Evaluating the correspondence between humans and vision models on 3D shape understanding</h1>
-                <h2>A benchmark of human shape inferences</h2>
-              <div class="button-container">
-                <a href="https://openreview.net/pdf?id=tU8Xgybudy" class="button">Paper</a>
-                <a href="https://github.com/tzler/shape-inferences" class="button">Code</a>
-              </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="header-container">
+    <div class="header-content">
+        <h1>HSI: Evaluating the correspondence between humans and vision models on 3D shape understanding</h1>
+        <h2>A benchmark of human shape inferences</h2>
+        <div class="button-container">
+            <a href="https://openreview.net/pdf?id=tU8Xgybudy" class="button">Paper (coming soon!)</a>
+            <a href="https://github.com/tzler/shape-inferences" class="button">Code (coming soon!)</a>
+        </div>
+    </div>
+    <div class="header-image">
+        <img src="images/preteaser.png" alt="Teaser Image" class="teaser-image">
+    </div>
+</div>
+<d-article>
+    <div class="byline">
+        <div class="byline-container">
+            <div class="byline-column">
+                <h3>Authors</h3>
+                <p><a href="https://tzler.github.io/" class="author-link">Tyler Bonnen<sup>1</sup></a></p>
+                <p><a href="https://stephanie-fu.github.io/" class="author-link">Stephanie Fu<sup>1</sup></a></p>
+                <p><a href="https://yutongbai.com/" class="author-link">Yutong Bai<sup>1</sup></a></p>
+                <p><a href="https://scholar.google.com/citations?user=lNQeAXEAAAAJ&hl=en" class="author-link">Thomas O'Connell<sup>2</sup></a></p>
+                <p><a href="https://www.yonifriedman.com/" class="author-link">Yoni Friedman<sup>2</sup></a></p>
+                <p><a href="https://mcgovern.mit.edu/profile/nancy-kanwisher/" class="author-link">Nancy Kanwisher<sup>2</sup></a></p>
+                <p><a href="https://web.mit.edu/cocosci/josh.html" class="author-link">Joshua B. Tenenbaum<sup>2</sup></a></p>
+                <p><a href="https://people.eecs.berkeley.edu/~efros/" class="author-link">Alexei A. Efros<sup>1</sup></a></p>
             </div>
-            <div class="header-image">
-                <img src="images/preteaser.png" alt="Teaser Image" class="teaser-image">
+            <div class="byline-column">
+                <h3>Affiliations</h3>
+                <p><a href="https://bair.berkeley.edu/" class="affiliation-link"><sup>1</sup>UC Berkeley</a></p>
+                <p><a href="https://web.mit.edu/" class="affiliation-link"><sup>1</sup>MIT</a></p>
+            </div>
+            <div class="byline-column">
+                <h3>Date</h3>
+                <p>Jul. 20, 2024</p>
             </div>
         </div>
-    <d-article>
-        <div class="byline">
-            <div class="byline-container">
-                <div class="byline-column">
-                    <h3>Authors</h3>
-                    <p><a href="https://tzler.github.io/" class="author-link">Tyler Bonnen<sup>1</sup></a></p>
-                    <p><a href="https://stephanie-fu.github.io/" class="author-link">Stephanie Fu<sup>1</sup></a></p>
-                    <p><a href="https://yutongbai.com/" class="author-link">Yutong Bai<sup>1</sup></a></p>
-                    <p><a href="https://scholar.google.com/citations?user=lNQeAXEAAAAJ&hl=en" class="author-link">Thomas O'Connell<sup>2</sup></a></p>
-                    <p><a href="https://www.yonifriedman.com/" class="author-link">Yoni Friedman<sup>2</sup></a></p>
-                    <p><a href="https://mcgovern.mit.edu/profile/nancy-kanwisher/" class="author-link">Nancy Kanwisher<sup>2</sup></a></p>
-                    <p><a href="https://web.mit.edu/cocosci/josh.html" class="author-link">Joshua B. Tenenbaum<sup>2</sup></a></p>
-                    <p><a href="https://people.eecs.berkeley.edu/~efros/" class="author-link">Alexei A. Efros<sup>1</sup></a></p>
-                </div>
-                <div class="byline-column">
-                    <h3>Affiliations</h3>
-                    <p><a href="https://bair.berkeley.edu/" class="affiliation-link"><sup>1</sup>UC Berkeley</a></p>
-                    <p><a href="https://web.mit.edu/" class="affiliation-link"><sup>1</sup>MIT</a></p>
-                </div>
-                <div class="byline-column">
-                    <h3>Date</h3>
-                    <p>Jul. 20, 2024</p>
-                </div>
+    </div>
+    <d-contents>
+        <nav>
+            <h4>Contents</h4>
+            <div><a href="#introduction">HSI: The dataset</a></div>
+            <div><a href="#human"><i class="fa fa-angle-down"></i> Human responses</a></div>
+            <div><a href="#human-reliability" class="level2">Subject reliability</a></div>
+            <div><a href="#model"><i class="fa fa-angle-down"></i> Model responses</a></div>
+            <div><a href="#model-scaling" class="level2">Model scaling</a></div>
+            <div><a href="#insights"><i class="fa fa-angle-down"></i> Insights</a></div>
+            <div><a href="#insights-failures" class="level2">Shared human-model failures</a></div>
+            <div><a href="#insights-gap" class="level2">Understanding the gap</a></div>
+            <div><a href="#conclusion">Conclusion</a></div>
+            <div><a href="#cite">Cite</a></div>
+        </nav>
+    </d-contents>
+
+    <p>
+        We present <b>H</b>uman <b>S</b>hape <b>I</b>nferences, a benchmark to directly evaluate alignment between human observers and vision models on 3D shape inferences. HSI requires zero-shot visual understanding of object shape: given 3-4 images, participants identify which contains a different object from the others, in spite of considerable viewpoint variation.
+    </p>
+    <p>
+        With these data, we define a series of increasingly granular evaluation metrics using choice, reaction time, and eye-tracking measurements. We evaluate models optimized via contrastive (DINOv2) and masked autoencoding (MAE) self-supervision objectives, as well as language-image pretraining (CLIP). While there are underlying similarities between human and model choice behaviors, <b>humans outperform all models by a wide margin, typically succeeding where models fail.</b> Using more granular evaluation metrics from reaction time and gaze data, we identify potential sources for this divergence.
+    </p>
+    <p>
+        We note that our benchmark is a shift from prevailing approaches; instead of a single measure, we evaluate models through a series of increasingly granular metrics.  Coarse-grained human-model comparison enables us to evaluate whether models achieve human-level shape inferences, while more fine-grained metrics (e.g., comparison with human gaze patterns) better details the divergence between model and human abilities.
+    </p>
+    <p>
+        <d-figure>
+            <figure>
+                <img src="images/teaser.png" alt="">
+                <figcaption><b>Figure 1: Human-level 3D shape inference dataset.</b> We develop a benchmark to directly evaluate the correspondence between humans and vision models on 3D visual inferences. We conduct our analyses across multiple levels of granularity---including accuracy, choice behaviors, processing time, and eyetracking data.</figcaption>
+            </figure>
+        </d-figure>
+    </p>
+    <section id="introduction">
+        <h2>HSI: The dataset</h2>
+        <p>
+            Images in HSI include common objects (e.g., chairs, airplanes) as well as abstract shapes (i.e., synthetic objects without semantic attributes), while controlling for shape-orthogonal image properties such as lighting and background. We construct 2019 unique image sets (each containing 3-4 images) and administer these tasks to human participants, collecting 35K trials of behavioral data from over 500 participants.
+        </p>
+        <p>
+            <d-figure>
+                <figure>
+                    <img src="images/example-stimuli.png" alt="">
+                    <figcaption><b>Figure 2: Example stimuli from the four datasets in this benchmark.</b> Each trial is composed of a triplet of images containing two objects: one from two different viewpoints (A and A'), and another object (B). Depending on the experiment, participants either infer the matching or non-matching object (pairing A-A', or identifying B). B in each trial is marked with a \(\textcolor{red}{*}\) for illustrative purposes.</figcaption>
+                </figure>
+            </d-figure>
+        </p>
+        <p>
+            HSI images are consolidated from four unique settings:
+        <ul>
+            <li>
+                <b>BARENSE. </b> Data from <d-cite key="barense2007human"></d-cite> include common, real-world objects (e.g., color photographs of chairs, tables) and abstract shapes (i.e., synthetic objects without semantic attributes) on a white background. These stimuli are separated into "high similarity" and "low similarity" conditions; "high similarity" trials are thought to rely on understanding the "compositional" 3D structure of objects while "low similarity" trials are thought to rely on simpler visual features.
+            </li>
+            <li>
+                <b>MAJAJ. </b> Images from <d-cite key="majaj2015simple"></d-cite> belong to four categories of objects: animals (e.g., gorillas, lions), chairs, planes, and faces. Images are in black and white, all from multiple viewpoints, and are superimposed onto randomized backgrounds (e.g., a chair floating in the sky above a mountain range. These stimuli are designed to make object segmentation and representation challenging, given the object-irrelevant distractors.
+            </li>
+            <li>
+                <b>SHAPENET. </b> ShapeNet assets from multiple classes (e.g., cabinet, car, lamp) are rendered from random viewpoints with their surface properties removed<d-cite key="oconnell2023approaching"></d-cite>.
+            </li>
+            <li>
+                <b>SHAPEGEN. </b> We also procedurally generate new objects by iteratively extruding random mesh faces from a base shape and applying a Catmull-Clark modifier to produce smooth edges on the final objects. This pipeline can generate infinitely many unique shapes, while simultaneously controlling for the similarity of any two objects.
+            </li>
+        </ul>
+        We license all assets under CC BY-NC-SA 4.0.
+        </p>
+        <div>
+            <link rel="stylesheet" href="dataset_viewer.css">
+            <div id="dataset-container">
             </div>
         </div>
-        <d-contents>
-            <nav>
-                <h4>Contents</h4>
-                <div><a href="#introduction">HSI: The dataset</a></div>
-                <div><a href="#human"><i class="fa fa-angle-down"></i> Human responses</a></div>
-                <div><a href="#human-reliability" class="level2">Subject reliability</a></div>
-                <div><a href="#model"><i class="fa fa-angle-down"></i> Model responses</a></div>
-                <div><a href="#model-scaling" class="level2">Model scaling</a></div>
-                <div><a href="#insights"><i class="fa fa-angle-down"></i> Insights</a></div>
-                <div><a href="#insights-failures" class="level2">Shared human-model failures</a></div>
-                <div><a href="#insights-gap" class="level2">Understanding the gap</a></div>
-                <div><a href="#conclusion">Conclusion</a></div>
-                <div><a href="#cite">Cite</a></div>
-            </nav>
-        </d-contents>
-        
-        <p>
-            We present <b>H</b>uman <b>S</b>hape <b>I</b>nferences, a benchmark to directly evaluate alignment between human observers and vision models on 3D shape inferences. HSI requires zero-shot visual understanding of object shape: given 3-4 images, participants identify which contains a different object from the others, in spite of considerable viewpoint variation.
-        </p>
-        <p>
-            With these data, we define a series of increasingly granular evaluation metrics using choice, reaction time, and eye-tracking measurements. We evaluate models optimized via contrastive (DINOv2) and masked autoencoding (MAE) self-supervision objectives, as well as language-image pretraining (CLIP). While there are underlying similarities between human and model choice behaviors, <b>humans outperform all models by a wide margin, typically succeeding where models fail.</b> Using more granular evaluation metrics from reaction time and gaze data, we identify potential sources for this divergence.
-        </p>
-        <p>
-            We note that our benchmark is a shift from prevailing approaches; instead of a single measure, we evaluate models through a series of increasingly granular metrics.  Coarse-grained human-model comparison enables us to evaluate whether models achieve human-level shape inferences, while more fine-grained metrics (e.g., comparison with human gaze patterns) better details the divergence between model and human abilities.
-        </p>
-        <p>
-            <d-figure>
-                <figure>
-                    <img src="images/teaser.png" alt="">
-                    <figcaption><b>Figure 1: Human-level 3D shape inference dataset.</b> We develop a benchmark to directly evaluate the correspondence between humans and vision models on 3D visual inferences. We conduct our analyses across multiple levels of granularity---including accuracy, choice behaviors, processing time, and eyetracking data.</figcaption>
-                </figure>
-            </d-figure>
-        </p>
-        <section id="introduction">
-            <h2>HSI: The dataset</h2>
-            <p>
-                Images in HSI include common objects (e.g., chairs, airplanes) as well as abstract shapes (i.e., synthetic objects without semantic attributes), while controlling for shape-orthogonal image properties such as lighting and background. We construct 2019 unique image sets (each containing 3-4 images) and administer these tasks to human participants, collecting 35K trials of behavioral data from over 500 participants.
-            </p>
-            <p>
+    </section>
+    <section id="human">
+        <h2>Human responses</h2>
+    </section>
+    <p>
+        <d-figure>
+            <figure>
+                <img src="images/human_histograms_across_datasets.png" alt="">
+                <figcaption><b>Figure 3: Distribution of human accuracy across trials in each dataset. </b>While humans are reliably accurate across trials, there is a long-tailed distribution of performance. This is by design, as it provides more challenging behavioral targets to model.</figcaption>
+            </figure>
+        </d-figure>
+    </p>
+    <section id="human-reliability">
+        <h3>Subject reliability</h3>
+    </section>
+    <p>
+        <d-figure>
+            <figure>
+                <img src="images/human_histogram_reliability.png" alt="">
+                <figcaption><b>Figure 4: Distribution of reliability scores for human performance on this benchmark.</b> As evidenced by the high split-half reliability (contrasted with the shuffled, empirical null), the human data included in this benchmark represent consistent, reliable properties of human 3D shape inference.</figcaption>
+            </figure>
+        </d-figure>
+    </p>
+
+    <section id="model">
+        <h2>Model responses</h2>
+    </section>
+    <p>
+        <d-figure>
+            <figure>
+                <img src="images/human_and_model_boxplots_across_conditions.png" alt="">
+                <figcaption><b>Figure 5: Mean difference between humans and multiple vision models across conditions.</b> For each condition in this dataset, we compare human performance (left, in color) to DINOv2s, CLIPs, and MAEs (greys, labels are inset) across multiple scales. Here we visualize a subset of conditions which reveal the range of human performance, as well as the disparities with model performance.</figcaption>
+            </figure>
+        </d-figure>
+    </p>
+    <section id="model-scaling">
+        <h3>Model scaling</h3>
+    </section>
+    <p>
+    <table class="display-table multicolumn">
+        <tr>
+            <td style="text-align: left;" class="multicolumn-left">
+                <b>Scaling up model size improves performance, but not for all self-supervision objectives.</b>
+                Across model scales, when comparing DINOv2 (average accuracy of 0.43%) to CLIP (0.19%) or MAEs (-0.03%), we find that DINOv2 has an unmatched advantage . Remarkably, MAE's performance hovers around chance for all model sizes, suggesting that while masked autoencoders might learn visual representations useful for other tasks, they do not seem suitable for human-like 3D visual understanding. Moreover, a thirteen-fold increase in the number of model parameters from DINOv2-base to DINOv2-giant only leads to an increase from 32% to 44%. We also note that humans outperform models on this benchmark by a wide margin; the best-performing model (DINOv2-giant) achieves 44% accuracy, nearly half of human-level performance. These data demonstrate that, insofar as 3D visual representations are concerned, not all self-supervision objectives benefit from increased model scale.
+            </td>
+            <td style="text-align: left;" class="multicolumn-right">
                 <d-figure>
                     <figure>
-                        <img src="images/example-stimuli.png" alt="">
-                        <figcaption><b>Figure 2: Example stimuli from the four datasets in this benchmark.</b> Each trial is composed of a triplet of images containing two objects: one from two different viewpoints (A and A'), and another object (B). Depending on the experiment, participants either infer the matching or non-matching object (pairing A-A', or identifying B). B in each trial is marked with a \(\textcolor{red}{*}\) for illustrative purposes.</figcaption>
+                        <img src="images/nparams_flops_performance.png" alt="">
+                        <figcaption><b>Figure 6: Performance on human shape inference benchmark in terms of model size/FLOPS.</b> Performance on 3D visual inferences improves with increased scale for some model classes (e.g., DINOv2) and not others (MAE). We use the best-performing model (DINOv2-giant) for all subsequent human-model evaluations. </figcaption>
                     </figure>
                 </d-figure>
-            </p>
-            <p>
-                HSI images are consolidated from four unique settings:
-                <ul>
-                    <li>
-                        <b>BARENSE. </b> Data from <d-cite key="barense2007human"></d-cite> include common, real-world objects (e.g., color photographs of chairs, tables) and abstract shapes (i.e., synthetic objects without semantic attributes) on a white background. These stimuli are separated into "high similarity" and "low similarity" conditions; "high similarity" trials are thought to rely on understanding the "compositional" 3D structure of objects while "low similarity" trials are thought to rely on simpler visual features.
-                    </li>
-                    <li>
-                        <b>MAJAJ. </b> Images from <d-cite key="majaj2015simple"></d-cite> belong to four categories of objects: animals (e.g., gorillas, lions), chairs, planes, and faces. Images are in black and white, all from multiple viewpoints, and are superimposed onto randomized backgrounds (e.g., a chair floating in the sky above a mountain range. These stimuli are designed to make object segmentation and representation challenging, given the object-irrelevant distractors.
-                    </li>
-                    <li>
-                        <b>SHAPENET. </b> ShapeNet assets from multiple classes (e.g., cabinet, car, lamp) are rendered from random viewpoints with their surface properties removed<d-cite key="oconnell2023approaching"></d-cite>.
-                    </li>
-                    <li>
-                        <b>SHAPEGEN. </b> We also procedurally generate new objects by iteratively extruding random mesh faces from a base shape and applying a Catmull-Clark modifier to produce smooth edges on the final objects. This pipeline can generate infinitely many unique shapes, while simultaneously controlling for the similarity of any two objects.
-                    </li>
-                </ul>
-                 We license all assets under CC BY-NC-SA 4.0.
-            </p>
-        </section>
-        <section id="human">
-            <h2>Human responses</h2>
-        </section>
-        <p>
-            <d-figure>
-                <figure>
-                    <img src="images/human_histograms_across_datasets.png" alt="">
-                    <figcaption><b>Figure 3: Distribution of human accuracy across trials in each dataset. </b>While humans are reliably accurate across trials, there is a long-tailed distribution of performance. This is by design, as it provides more challenging behavioral targets to model.</figcaption>
-                </figure>
-            </d-figure>
-        </p>
-        <section id="human-reliability">
-            <h3>Subject reliability</h3>
-        </section>
-        <p>
-            <d-figure>
-                <figure>
-                    <img src="images/human_histogram_reliability.png" alt="">
-                    <figcaption><b>Figure 4: Distribution of reliability scores for human performance on this benchmark.</b> As evidenced by the high split-half reliability (contrasted with the shuffled, empirical null), the human data included in this benchmark represent consistent, reliable properties of human 3D shape inference.</figcaption>
-                </figure>
-            </d-figure>
-        </p>
+            </td>
+        </tr>
+    </table>
+    </p>
 
-        <section id="model">
-            <h2>Model responses</h2>
-        </section>
+    <section id="insights">
+        <h2>Insights</h2>
+    </section>
+    <section id="insights-failures">
+        <h3>Shared human-model failures</h3>
+    </section>
+    <p>
+        <b>Humans outperform models by a wide margin, yet their behaviors are correlated. </b>
+        The gap between human and model performance varies considerably across datasets (average difference (\(38\% \pm 30\%\) STD). We find that, even in the cases with large performance gaps between the two, their behaviors are nonetheless correlated. We observe this human-model correlation across datasets \((r=.42)\), conditions \((r=.58, F(1, 23) = 3.40, P = 0.002 \)), and trials \((r=.35, F(1, 2017) = 16.86, P = 9 \) x \( 10 ^{-60} \)). When comparing to the reliability ceiling estimated for human behaviors across these different resolutions, DINOv2 can predict about 45%, 0.61%, and 0.37% of the explainable variance across datasets, conditions, and trials, respectively. We visualize this relation in Fig. 7 (bottom), binning across trials. Taken together, these data suggest that task difficulty is shared across humans and models, despite considerable differences in accuracy.
+    </p>
+    <p>
+        <d-figure>
+            <figure>
+                <img src="images/human_and_model_accuracy_binned_scatterplot_perhumanaccuracy.png" alt="">
+                <img src="images/human_and_model_reaction_time_scatterplot_samescale.png" alt="">
+                <figcaption><b>Figure 7: Human-model accuracy is correlated; humans spend more time on difficult trials.</b> Humans outperform all vision models evaluated on this benchmark. Nonetheless, there is a correspondence between human and model performance. We visualize this relationship by binning across trials and plotting the performance of DINOv2-giant along the x-axis and human performance along the y-axis, for each dataset in this benchmark (top).</figcaption>
+            </figure>
+        </d-figure>
+    </p>
+    <div>
+        <d-figure>
+            <figure>
+                <div id="model-to-human"></div>
+                <figcaption><b>Figure 8: Direct comparison of trial-level human accuracy to the performance of DINOv2.</b>
+                <br>
+                    <span class="plot-instr">Click on the legend to toggle data points.</span>
+                </figcaption>
+            </figure>
+        </d-figure>
+    </div>
+    <section id="insights-gap">
+        <h3>Understanding the gap</h3>
         <p>
-            <d-figure>
-                <figure>
-                    <img src="images/human_and_model_boxplots_across_conditions.png" alt="">
-                    <figcaption><b>Figure 5: Mean difference between humans and multiple vision models across conditions.</b> For each condition in this dataset, we compare human performance (left, in color) to DINOv2s, CLIPs, and MAEs (greys, labels are inset) across multiple scales. Here we visualize a subset of conditions which reveal the range of human performance, as well as the disparities with model performance.</figcaption>
-                </figure>
-            </d-figure>
+            <b>Human-model divergence may be explained by increased processing time and attention. </b>
+            Even as human and model performance is correlated, there is a persistent gap between the two. That is, while both humans and model appear to be affected by some underlying factor of visual difficulty, humans are more robust to these perceptual challenges. <em>What accounts for this improved performance as compared to models?</em>
         </p>
-        <section id="model-scaling">
-            <h3>Model scaling</h3>
-        </section>
         <p>
-            <table class="display-table multicolumn">
-                <tr>
-                    <td style="text-align: left;" class="multicolumn-left">
-                        <b>Scaling up model size improves performance, but not for all self-supervision objectives.</b>
-                        Across model scales, when comparing DINOv2 (average accuracy of 0.43%) to CLIP (0.19%) or MAEs (-0.03%), we find that DINOv2 has an unmatched advantage . Remarkably, MAE's performance hovers around chance for all model sizes, suggesting that while masked autoencoders might learn visual representations useful for other tasks, they do not seem suitable for human-like 3D visual understanding. Moreover, a thirteen-fold increase in the number of model parameters from DINOv2-base to DINOv2-giant only leads to an increase from 32% to 44%. We also note that humans outperform models on this benchmark by a wide margin; the best-performing model (DINOv2-giant) achieves 44% accuracy, nearly half of human-level performance. These data demonstrate that, insofar as 3D visual representations are concerned, not all self-supervision objectives benefit from increased model scale.
-                    </td>
-                    <td style="text-align: left;" class="multicolumn-right">
-                        <d-figure>
-                            <figure>
-                                <img src="images/nparams_flops_performance.png" alt="">
-                                <figcaption><b>Figure 6: Performance on human shape inference benchmark in terms of model size/FLOPS.</b> Performance on 3D visual inferences improves with increased scale for some model classes (e.g., DINOv2) and not others (MAE). We use the best-performing model (DINOv2-giant) for all subsequent human-model evaluations. </figcaption>
-                            </figure>
-                        </d-figure>
-                    </td>
-                </tr>
-            </table>
-        </p>
-
-        <section id="insights">
-            <h2>Insights</h2>
-        </section>
-        <section id="insights-failures">
-            <h3>Shared human-model failures</h3>
-        </section>
-        <p>
-            <b>Humans outperform models by a wide margin, yet their behaviors are correlated. </b>
-            The gap between human and model performance varies considerably across datasets (average difference (\(38\% \pm 30\%\) STD). We find that, even in the cases with large performance gaps between the two, their behaviors are nonetheless correlated. We observe this human-model correlation across datasets \((r=.42)\), conditions \((r=.58, F(1, 23) = 3.40, P = 0.002 \)), and trials \((r=.35, F(1, 2017) = 16.86, P = 9 \) x \( 10 ^{-60} \)). When comparing to the reliability ceiling estimated for human behaviors across these different resolutions, DINOv2 can predict about 45%, 0.61%, and 0.37% of the explainable variance across datasets, conditions, and trials, respectively. We visualize this relation in Fig. 7 (bottom), binning across trials. Taken together, these data suggest that task difficulty is shared across humans and models, despite considerable differences in accuracy.
+            Here we turn to additional measures of human behavior: reaction time and gaze (i.e., attention) dynamics. These behavioral intermediates provide clues as to the algorithmic basis of human visual abilities, and so may indicate modeling approaches that may prove useful for future work. As is already evident in the initial distributions of human behavior, there is a striking relationship between human accuracy and reaction time; as accuracy decreases, so too does reaction time (Fig. 8). We find that the trials for which model performance is degraded are the same trials where humans allocate more time (i.e., a significant correlation between human reaction time and model performance, \(r=-0.29, F(1, 2017) = -13.72, P = 5 \) x \( 10 ^{-41}\)). Given that human performance on these trials is significantly greater than model performance, it is possible that humans allocate more processing time for those trials that are more challenging.
         </p>
         <p>
             <d-figure>
                 <figure>
-                    <img src="images/human_and_model_accuracy_binned_scatterplot_perhumanaccuracy.png" alt="">
-                    <img src="images/human_and_model_reaction_time_scatterplot_samescale.png" alt="">
-                    <figcaption><b>Figure 7: Human-model accuracy is correlated; humans spend more time on difficult trials.</b> Humans outperform all vision models evaluated on this benchmark. Nonetheless, there is a correspondence between human and model performance. We visualize this relationship by binning across trials and plotting the performance of DINOv2-giant along the x-axis and human performance along the y-axis, for each dataset in this benchmark (top).</figcaption>
+                    <img src="images/human_scatterplot_across_datasets.png" alt="">
+                    <figcaption><b>Figure 9: Accuracy and reaction time distributions for human participants across datasets..</b> Across datasets we observe a clear relationship between accuracy and processing time; as trials become more difficult, participants allocate more attention/time. Critically, the distribution of human behavior ranges from chance to ceiling, indicating that we have a suitable estimate of the full range of human visual abilities. This and all subsequent error bars are SEM computed over trials.</figcaption>
                 </figure>
             </d-figure>
         </p>
-        <section id="insights-gap">
-            <h3>Understanding the gap</h3>
-            <p>
-                <b>Human-model divergence may be explained by increased processing time and attention. </b>
-                Even as human and model performance is correlated, there is a persistent gap between the two. That is, while both humans and model appear to be affected by some underlying factor of visual difficulty, humans are more robust to these perceptual challenges. <em>What accounts for this improved performance as compared to models?</em>
-            </p>
-            <p>
-                Here we turn to additional measures of human behavior: reaction time and gaze (i.e., attention) dynamics. These behavioral intermediates provide clues as to the algorithmic basis of human visual abilities, and so may indicate modeling approaches that may prove useful for future work. As is already evident in the initial distributions of human behavior, there is a striking relationship between human accuracy and reaction time; as accuracy decreases, so too does reaction time (Fig. 8). We find that the trials for which model performance is degraded are the same trials where humans allocate more time (i.e., a significant correlation between human reaction time and model performance, \(r=-0.29, F(1, 2017) = -13.72, P = 5 \) x \( 10 ^{-41}\)). Given that human performance on these trials is significantly greater than model performance, it is possible that humans allocate more processing time for those trials that are more challenging.
-            </p>
-            <p>
-                <d-figure>
-                    <figure>
-                        <img src="images/human_scatterplot_across_datasets.png" alt="">
-                        <figcaption><b>Figure 8: Accuracy and reaction time distributions for human participants across datasets..</b> Across datasets we observe a clear relationship between accuracy and processing time; as trials become more difficult, participants allocate more attention/time. Critically, the distribution of human behavior ranges from chance to ceiling, indicating that we have a suitable estimate of the full range of human visual abilities. This and all subsequent error bars are SEM computed over trials.</figcaption>
-                    </figure>
-                </d-figure>
-            </p>
-            <p>
-                If this were true, we might expect that this processing time to be evident in some way in their attention patterns. Are vision models attending to the same feature that humans are, during these extending viewing periods? We extract attentional measures from intermediate model layers, across all models layers, and we find that DINOv2 features do not predict human visual attention any better than would be expected from chance (human-human reliability scores visualized in Fig. 9, left, alongside model-human attention scores; random subset of attention maps visualized in Fig. 9 right). The reliable patterns in human attention are not evident in these models.
-            </p>
-            <p>
-                <d-figure>
-                    <figure>
-                        <img src="images/gaze_hists.png" alt="">
-                        <figcaption><b>Figure 9: Human gaze patterns are reliable but not predicted by model self-attention.</b> While many human behavioral measures are predicted by model performance, self-attention does not predict human attention, suggesting that encoding strategies for humans and machines are quite different. </figcaption>
-                    </figure>
-                </d-figure>
-            </p>
-        </section>
-        <section id="conclusion">
-            <h3>Conclusion</h3>
-            <p>
-                We provide a benchmark to evaluate the alignment between human participants and vision models on 3D visual inferences, including multi-level metrics to compare models and human observers. Humans outperform all vision models by a wide margin, and there as a clear relationship between their choice behaviors (i.e., their accuracies are correlated). This correspondence is profoundly asymmetric: when human accuracy decreases, model performance often falls to chance levels, while human accuracy is relatively robust on those trials where model performance degrades. These data suggest that humans and models are challenged by the same trials, but human visual inferences are more robust. This trend is evident when comparing models to intermediate behavioral measures relating to processing (reaction time) and attention (gaze patterns). This benchmark identifies unambiguous failure modes in contemporary vision models, while providing clues as to the algorithmic basis of human visual abilities.
-            </p>
-        </section>
-        </d-article>
-        <d-appendix>
-            <h3>BibTeX</h3>
-            <section id="cite">
-                <p class="bibtex">
-                    @article{TODO bibtex here}
-                </p>
-            </section>
+        <p>
+            If this were true, we might expect that this processing time to be evident in some way in their attention patterns. Are vision models attending to the same feature that humans are, during these extending viewing periods? We extract attentional measures from intermediate model layers, across all models layers, and we find that DINOv2 features do not predict human visual attention any better than would be expected from chance (human-human reliability scores visualized in Fig. 9, left, alongside model-human attention scores; random subset of attention maps visualized in Fig. 9 right). The reliable patterns in human attention are not evident in these models.
+        </p>
+        <p>
+            <d-figure>
+                <figure>
+                    <img src="images/gaze_hists.png" alt="">
+                    <figcaption><b>Figure 10: Human gaze patterns are reliable but not predicted by model self-attention.</b> While many human behavioral measures are predicted by model performance, self-attention does not predict human attention, suggesting that encoding strategies for humans and machines are quite different. </figcaption>
+                </figure>
+            </d-figure>
+        </p>
+    </section>
+    <section id="conclusion">
+        <h3>Conclusion</h3>
+        <p>
+            We provide a benchmark to evaluate the alignment between human participants and vision models on 3D visual inferences, including multi-level metrics to compare models and human observers. Humans outperform all vision models by a wide margin, and there as a clear relationship between their choice behaviors (i.e., their accuracies are correlated). This correspondence is profoundly asymmetric: when human accuracy decreases, model performance often falls to chance levels, while human accuracy is relatively robust on those trials where model performance degrades. These data suggest that humans and models are challenged by the same trials, but human visual inferences are more robust. This trend is evident when comparing models to intermediate behavioral measures relating to processing (reaction time) and attention (gaze patterns). This benchmark identifies unambiguous failure modes in contemporary vision models, while providing clues as to the algorithmic basis of human visual abilities.
+        </p>
+    </section>
+</d-article>
+<d-appendix>
+    <h3>BibTeX</h3>
+    <section id="cite">
+        <p class="bibtex">
+            @article{TODO bibtex here}
+        </p>
+    </section>
 
-            <d-footnote-list></d-footnote-list>
-            <d-citation-list></d-citation-list>
-        </d-appendix>
+    <d-footnote-list></d-footnote-list>
+    <d-citation-list></d-citation-list>
+</d-appendix>
 
-        <!-- bibliography will be inlined during Distill pipeline's pre-rendering -->
-        <d-bibliography src="bibliography.bib"></d-bibliography>
+<!-- bibliography will be inlined during Distill pipeline's pre-rendering -->
+<d-bibliography src="bibliography.bib"></d-bibliography>
 
-        <!-- <script type="text/bibliography">
-        
-        </script> -->
-        <script src="contents_bar.js"></script>
-        
-        
+<!-- <script type="text/bibliography">
 
-    </body>
+</script> -->
+<script src="contents_bar.js"></script>
+<script src="dataset_viewer.js"></script>
 
-    </body>
+</body>
+
+</body>
 </html>

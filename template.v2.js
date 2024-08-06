@@ -934,7 +934,7 @@ ${math}
   }
 
   function title_string(ent) {
-    return '<span class="title">' + ent.title + "</span> ";
+    return '<span>' + ent.title + "</span> ";
   }
 
   function bibliography_cite(ent, fancy) {

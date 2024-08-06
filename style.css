@@ -256,11 +256,20 @@ d-article section{
   color: #777;
 }
 
-.fa-angle-down {
-  font-size: 16px !important;
-}
-
 .multicolumn-left {
   padding-left: 0;
   width: 65%;
+}
+
+.plot-instr {
+  color: #592dff;
+}
+
+#model-to-human {
+  overflow: auto;
+  text-align: center;
+}
+
+#dataset-container {
+  width: 100%;
 }
