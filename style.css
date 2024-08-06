@@ -1,4 +1,8 @@
 /* Base styles */
+body {
+  background-color: white;
+}
+
 .header-container {
   background-color: #595375; /* Blue background */
   color: #ddd9ed;
