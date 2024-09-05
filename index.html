@@ -22,11 +22,12 @@
 <body>
 <div class="header-container">
     <div class="header-content">
-        <h1>HSI: Evaluating the correspondence between humans and vision models on 3D shape understanding</h1>
-        <h2>A benchmark of human shape inferences</h2>
+        <h1>MOCHI: Multiview Object Consistency in Humans and Image models </h1>
+        <h2>A benchmark</h2>
         <div class="button-container">
-            <a href="https://openreview.net/pdf?id=tU8Xgybudy" class="button">Paper (coming soon!)</a>
-            <a href="https://github.com/tzler/shape-inferences" class="button">Code (coming soon!)</a>
+            <a href="https://openreview.net/pdf?id=tU8Xgybudy" class="button">Paper</a>
+            <a href="https://github.com/tzler/MOCHI" class="button">Code</a>
+            <a href="https://huggingface.co/datasets/tzler/MOCHI" class="button">🤗 Dataset</a>
         </div>
     </div>
     <div class="header-image">
@@ -61,13 +62,13 @@
     <d-contents>
         <nav>
             <h4>Contents</h4>
-            <div><a href="#introduction">HSI: The dataset</a></div>
-            <div><a href="#human"><i class="fa fa-angle-down"></i> Human responses</a></div>
+            <div><a href="#introduction">MOCHI: The dataset</a></div>
+            <div><a href="#human"><i class="fa fa-angle-down"></i> Human performance</a></div>
             <div><a href="#human-reliability" class="level2">Subject reliability</a></div>
-            <div><a href="#model"><i class="fa fa-angle-down"></i> Model responses</a></div>
+            <div><a href="#model"><i class="fa fa-angle-down"></i> Model performance</a></div>
             <div><a href="#model-scaling" class="level2">Model scaling</a></div>
             <div><a href="#insights"><i class="fa fa-angle-down"></i> Insights</a></div>
-            <div><a href="#insights-failures" class="level2">Shared human-model failures</a></div>
+            <div><a href="#insights-failures" class="level2">Human-model correlation</a></div>
             <div><a href="#insights-gap" class="level2">Understanding the gap</a></div>
             <div><a href="#conclusion">Conclusion</a></div>
             <div><a href="#cite">Cite</a></div>
@@ -75,10 +76,7 @@
     </d-contents>
 
     <p>
-        We present <b>H</b>uman <b>S</b>hape <b>I</b>nferences, a benchmark to directly evaluate alignment between human observers and vision models on 3D shape inferences. HSI requires zero-shot visual understanding of object shape: given 3-4 images, participants identify which contains a different object from the others, in spite of considerable viewpoint variation.
-    </p>
-    <p>
-        With these data, we define a series of increasingly granular evaluation metrics using choice, reaction time, and eye-tracking measurements. We evaluate models optimized via contrastive (DINOv2) and masked autoencoding (MAE) self-supervision objectives, as well as language-image pretraining (CLIP). While there are underlying similarities between human and model choice behaviors, <b>humans outperform all models by a wide margin, typically succeeding where models fail.</b> Using more granular evaluation metrics from reaction time and gaze data, we identify potential sources for this divergence.
+        We present <b>M</b>ultiview <b>O</b>bject <b>C</b>onsistency in <b>H</b>umans and <b>I</b>mage models (MOCHI), a benchmark to directly evaluate alignment between human observers and vision models on 3D shape inferences. MOCHI requires zero-shot visual understanding of object shape: given 3-4 images, participants identify which contains a different object from the others, in spite of considerable viewpoint variation.
     </p>
     <p>
         We note that our benchmark is a shift from prevailing approaches; instead of a single measure, we evaluate models through a series of increasingly granular metrics.  Coarse-grained human-model comparison enables us to evaluate whether models achieve human-level shape inferences, while more fine-grained metrics (e.g., comparison with human gaze patterns) better details the divergence between model and human abilities.
@@ -86,15 +84,15 @@
     <p>
         <d-figure>
             <figure>
-                <img src="images/teaser.png" alt="">
-                <figcaption><b>Figure 1: Human-level 3D shape inference dataset.</b> We develop a benchmark to directly evaluate the correspondence between humans and vision models on 3D visual inferences. We conduct our analyses across multiple levels of granularity---including accuracy, choice behaviors, processing time, and eyetracking data.</figcaption>
+                <img src="images/benchmark_2024_teaser.png" alt="">
+                <figcaption><b>Figure 1: How well do computer vision models represent the 3D structure of objects?.</b> We develop a benchmark using a shape inference task from the cognitive sciences: Multiview Object Consistency in Humans and Image models (MOCHI). Given three images of objects from random viewpoints, observers must identify which image depicts the object that is different. We compare human performance (35K trials from over 500 subjects, including accuracy, reaction time, and gaze data) against a number of standard computer vision models.</figcaption>
             </figure>
         </d-figure>
     </p>
     <section id="introduction">
-        <h2>HSI: The dataset</h2>
+        <h2>MOCHI: The dataset</h2>
         <p>
-            Images in HSI include common objects (e.g., chairs, airplanes) as well as abstract shapes (i.e., synthetic objects without semantic attributes), while controlling for shape-orthogonal image properties such as lighting and background. We construct 2019 unique image sets (each containing 3-4 images) and administer these tasks to human participants, collecting 35K trials of behavioral data from over 500 participants.
+            Images in MOCHI include common objects (e.g., chairs, airplanes) as well as abstract shapes (i.e., synthetic objects without semantic attributes), while controlling for shape-orthogonal image properties such as lighting and background. We construct 2019 unique image sets (each containing 3-4 images) and administer these tasks to human participants, collecting 35K trials of behavioral data from over 500 participants.
         </p>
         <p>
             <d-figure>
@@ -105,7 +103,7 @@
             </d-figure>
         </p>
         <p>
-            HSI images are consolidated from four unique settings:
+            MOCHI images are consolidated from four unique settings:
         <ul>
             <li>
                 <b>BARENSE. </b> Data from <d-cite key="barense2007human"></d-cite> include common, real-world objects (e.g., color photographs of chairs, tables) and abstract shapes (i.e., synthetic objects without semantic attributes) on a white background. These stimuli are separated into "high similarity" and "low similarity" conditions; "high similarity" trials are thought to rely on understanding the "compositional" 3D structure of objects while "low similarity" trials are thought to rely on simpler visual features.
